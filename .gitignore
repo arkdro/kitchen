@@ -1,0 +1,7 @@
+*.sw?
+*~
+*.iml
+.idea/
+build/
+.gradle/
+
