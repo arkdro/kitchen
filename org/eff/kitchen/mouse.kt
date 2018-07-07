@@ -1,4 +1,4 @@
-package org.eff.kitchen
+package org.eff.kitchen.mouse
 
 abstract class Mouse() {
     abstract var x: Int
