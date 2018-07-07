@@ -21,3 +21,13 @@ fun Place.fill_stock() {
 }
 
 }
+
+fun food_at_coordinates(x: Int, y: Int): Food {
+    if (x < h_gap || x >= width - h_gap) {
+        return Food.EMPTY
+    }
+    if (y < v_gap || y >= height - v_gap) {
+        return Food.EMPTY
+    }
+    return Food.FULL
+}
