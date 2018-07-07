@@ -1,5 +1,10 @@
 package org.eff.kitchen
 
-class Kitchen {
+import org.frice.Game
+import org.frice.launch
 
+class Kitchen : Game() {
 }
+
+fun main(args: Array<String>) = launch(Kitchen::class.java)
+
