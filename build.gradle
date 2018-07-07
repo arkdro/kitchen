@@ -5,10 +5,12 @@ plugins {
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:1.2.41"
+    compile 'org.frice:engine:1.8.3'
 }
 
 task fatJar(type: Jar) {
