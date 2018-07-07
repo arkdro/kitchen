@@ -1,5 +1,8 @@
 package org.eff.kitchen.place
 
+
+import org.eff.kitchen.food.Food
+
 const val width = 30
 const val height = 30
 const val v_gap = 3
