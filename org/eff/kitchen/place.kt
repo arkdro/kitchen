@@ -20,6 +20,9 @@ fun Place.fill_stock() {
     }
 }
 
+fun Place.create_mice() {
+    create_food_mice()
+    create_ground_mice()
 }
 
 fun food_at_coordinates(x: Int, y: Int): Food {
