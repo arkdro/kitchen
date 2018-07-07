@@ -1,5 +1,6 @@
 package org.eff.kitchen.mouse
 
+import org.eff.kitchen.direction.Diagonal_direction
 import org.eff.kitchen.direction.Direction
 import org.eff.kitchen.food.Food
 
@@ -17,7 +18,7 @@ fun create_random_with_slack(range: Int): Int {
 
 fun create_random_direction(): Direction {
     val rnd = java.util.Random()
-    val directions = Direction.values()
+    val directions = Diagonal_direction().directions
     val idx = rnd.nextInt(directions.size)
     return directions[idx]
 }
