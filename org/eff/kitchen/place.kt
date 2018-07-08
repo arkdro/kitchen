@@ -13,10 +13,6 @@ class Place {
     val food_mice = MutableList<Food_mouse>(0, {})
     val ground_mice = MutableList<Ground_mouse>(0, {})
     var stock = fill_stock()
-    init {
-        fill_stock()
-        create_mice()
-    }
 
 fun fill_stock(): Array<Array<Food>> {
     val stock = Array(height, {Array(width, { Food.FULL })})
