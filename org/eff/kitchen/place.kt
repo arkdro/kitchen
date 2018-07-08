@@ -25,11 +25,7 @@ fun fill_stock(): Array<Array<Food>> {
             stock[y][x] = food_at_coordinates(x, y)
         }
     }
-}
-
-fun Place.create_mice() {
-    create_food_mice()
-    create_ground_mice()
+    return stock
 }
 
 fun food_at_coordinates(x: Int, y: Int): Food {
