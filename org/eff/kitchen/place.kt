@@ -2,6 +2,7 @@ package org.eff.kitchen.place
 
 
 import org.eff.kitchen.food.Food
+import org.eff.kitchen.mouse.Food_mouse
 
 const val width = 30
 const val height = 30
