@@ -1,6 +1,7 @@
 package org.eff.kitchen.place
 
 
+import org.eff.kitchen.coordinates.Coord
 import org.eff.kitchen.food.Food
 import org.eff.kitchen.mouse.Food_mouse
 
@@ -37,5 +38,13 @@ fun food_at_coordinates(x: Int, y: Int): Food {
 }
 
 fun create_food_mice(): MutableList<Food_mouse> {
-    return mutableListOf<Food_mouse>()
+    val num = 1
+    val list = mutableListOf<Food_mouse>()
+    for (x in 1..num) {
+        val initial_corner = Coord(h_gap, v_gap)
+        val finish_corner = Coord(width - h_gap - 1, height - v_gap - 1)
+        val mouse = Food_mouse(initial_corner, finish_corner)
+        list.add(mouse)
+    }
+    return list
 }

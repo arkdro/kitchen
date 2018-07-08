@@ -1,19 +1,22 @@
 package org.eff.kitchen.mouse
 
+import org.eff.kitchen.coordinates.Coord
 import org.eff.kitchen.direction.Diagonal_direction
 import org.eff.kitchen.direction.Direction
-import org.eff.kitchen.food.Food
 
-class Food_mouse(fodder: Food, width: Int, height: Int) : Mouse() {
-    override var x: Int = create_random_with_slack(width)
-    override var y: Int = create_random_with_slack(height)
+class Food_mouse(initial_corner: Coord, finish_corner: Coord) : Mouse() {
+    override var x: Int = create_random_with_slack(initial_corner.x, finish_corner.x)
+    override var y: Int = create_random_with_slack(initial_corner.y, finish_corner.y)
     override var direction: Direction = create_random_direction()
     override var speed = 1
 }
 
-fun create_random_with_slack(range: Int): Int {
+fun create_random_with_slack(begin: Int, end: Int): Int {
+    val len = end - begin + 1
     val rnd = java.util.Random()
-    return 1 + rnd.nextInt(range - 2)
+    val slack = 1
+    val random_val = rnd.nextInt(len - 2 * slack)
+    return begin + random_val + slack
 }
 
 fun create_random_direction(): Direction {
