@@ -10,10 +10,11 @@ const val v_gap = 3
 const val h_gap = 3
 
 class Place {
-    val catcher = Catcher()
-    val ground_mice = MutableList<Ground_mouse>(0, {})
     var stock = fill_stock()
+    //val catcher = Catcher()
     val food_mice = create_food_mice()
+    //val ground_mice = MutableList<Ground_mouse>(0, {})
+}
 
 fun fill_stock(): Array<Array<Food>> {
     val stock = Array(height, {Array(width, { Food.FULL })})
