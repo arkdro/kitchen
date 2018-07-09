@@ -1,5 +1,6 @@
 package org.eff.kitchen.mouse
 
+import org.eff.kitchen.coordinates.Coord
 import org.eff.kitchen.direction.Direction
 
 abstract class Mouse() {
