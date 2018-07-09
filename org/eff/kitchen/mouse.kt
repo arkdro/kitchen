@@ -9,7 +9,29 @@ abstract class Mouse() {
     abstract var direction: Direction
     abstract var speed: Int
     abstract val allowed_food: Food
+
+    fun diagonal_move(area) {
+        var new_direction: Direction
+        if (can_walk(coord, direction, allowed_food, area)) {
+            new_direction = direction
+        } else {
+            new_direction = get_new_direction(area)
+            if (!can_walk(coord, new_direction, allowed_food, area)) {
+                new_direction = flip_both_directions(direction)
+            }
+        }
+        calc_new_coordinates(coord, new_direction)
+    }
+
+    fun get_new_direction(area): Direction =
+            when {
+                can_walk(coord, direction, allowed_food, area) -> direction
+                is_corner(coord, direction, allowed_food, area) -> flip_both_directions(direction)
+                is_vertical_wall(coord, direction, allowed_food, area) -> flip_horizontal_direction(direction)
+                else -> flip_vertical_direction(direction)
+            }
 }
+
 fun flip_horizontal_direction(d: Direction): Direction =
         when (d) {
             Direction.W -> Direction.E
