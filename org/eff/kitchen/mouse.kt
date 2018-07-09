@@ -22,3 +22,15 @@ fun flip_horizontal_direction(d: Direction): Direction =
             Direction.S -> Direction.S
         }
 
+fun flip_vertical_direction(d: Direction): Direction =
+        when (d) {
+            Direction.W -> Direction.W
+            Direction.E -> Direction.E
+            Direction.NW -> Direction.SW
+            Direction.NE -> Direction.SE
+            Direction.SW -> Direction.NW
+            Direction.SE -> Direction.NE
+            Direction.N -> Direction.S
+            Direction.S -> Direction.N
+        }
+
