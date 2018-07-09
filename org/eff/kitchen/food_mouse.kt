@@ -3,11 +3,13 @@ package org.eff.kitchen.mouse
 import org.eff.kitchen.coordinates.Coord
 import org.eff.kitchen.direction.Diagonal_direction
 import org.eff.kitchen.direction.Direction
+import org.eff.kitchen.food.Food
 
 class Food_mouse(initial_corner: Coord, finish_corner: Coord) : Mouse() {
     override var coord: Coord = create_random_coordinates(initial_corner, finish_corner)
     override var direction: Direction = create_random_direction()
     override var speed = 1
+    override val allowed_food = Food.FULL
 }
 
 fun create_random_coordinates(initial_corner: Coord, finish_corner: Coord): Coord {
