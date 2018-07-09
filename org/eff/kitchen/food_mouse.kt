@@ -5,10 +5,15 @@ import org.eff.kitchen.direction.Diagonal_direction
 import org.eff.kitchen.direction.Direction
 
 class Food_mouse(initial_corner: Coord, finish_corner: Coord) : Mouse() {
-    override var x: Int = create_random_with_slack(initial_corner.x, finish_corner.x)
-    override var y: Int = create_random_with_slack(initial_corner.y, finish_corner.y)
+    override var coord: Coord = create_random_coordinates(initial_corner, finish_corner)
     override var direction: Direction = create_random_direction()
     override var speed = 1
+}
+
+fun create_random_coordinates(initial_corner: Coord, finish_corner: Coord): Coord {
+    val x: Int = create_random_with_slack(initial_corner.x, finish_corner.x)
+    val y: Int = create_random_with_slack(initial_corner.y, finish_corner.y)
+    return Coord(x, y)
 }
 
 fun create_random_with_slack(begin: Int, end: Int): Int {
