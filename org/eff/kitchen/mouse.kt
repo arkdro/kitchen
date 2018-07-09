@@ -34,3 +34,5 @@ fun flip_vertical_direction(d: Direction): Direction =
             Direction.S -> Direction.N
         }
 
+fun flip_both_directions(d: Direction): Direction =
+        flip_horizontal_direction(flip_vertical_direction(d))
