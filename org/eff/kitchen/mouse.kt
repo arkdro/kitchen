@@ -10,3 +10,15 @@ abstract class Mouse() {
     abstract var speed: Int
     abstract val allowed_food: Food
 }
+fun flip_horizontal_direction(d: Direction): Direction =
+        when (d) {
+            Direction.W -> Direction.E
+            Direction.E -> Direction.W
+            Direction.NW -> Direction.NE
+            Direction.NE -> Direction.NW
+            Direction.SW -> Direction.SE
+            Direction.SE -> Direction.SW
+            Direction.N -> Direction.N
+            Direction.S -> Direction.S
+        }
+
