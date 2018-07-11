@@ -35,8 +35,9 @@ abstract class Mouse() {
 
 }
 
-fun can_walk(coord: Coord, allowed_food: Food, area): Boolean {
-    val food = area[coord.y][coord.x]
+fun can_walk_farther(coord: Coord, direction: Direction, allowed_food: Food, area): Boolean {
+    val new_coord = calc_new_coordinates(coord, direction)
+    val food = area[new_coord.y][new_coord.x]
     return food == allowed_food
 }
 
