@@ -33,11 +33,11 @@ abstract class Mouse() {
 
     private fun get_new_direction(coord: Coord, dir: Direction, allowed_food: Food, area): Direction =
             when {
-                can_walk(coord, direction, allowed_food, area) -> direction
-                is_corner(coord, direction, allowed_food, area) -> flip_both_directions(direction)
-                is_vertical_wall(coord, direction, allowed_food, area) -> flip_horizontal_direction(direction)
-                else -> flip_vertical_direction(direction)
+                is_corner(coord, dir, allowed_food, area) -> flip_both_directions(dir)
+                is_vertical_wall(coord, dir, allowed_food, area) -> flip_horizontal_direction(dir)
+                else -> flip_vertical_direction(dir)
             }
+
     private fun freeze() {
         speed = 0
     }
