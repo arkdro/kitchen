@@ -2,6 +2,7 @@ package org.eff.kitchen.mouse
 
 import org.eff.kitchen.coordinates.Coord
 import org.eff.kitchen.direction.Direction
+import org.eff.kitchen.direction.to_deltas
 import org.eff.kitchen.food.Food
 
 abstract class Mouse() {
@@ -33,6 +34,11 @@ abstract class Mouse() {
         speed = 0
     }
 
+}
+
+fun calc_new_coordinates(coord: Coord, direction: Direction): Coord {
+    val deltas = direction.to_deltas()
+    return Coord(coord.x + deltas.x, coord.y + deltas.y)
 }
 
 fun can_walk_farther(coord: Coord, direction: Direction, allowed_food: Food, area): Boolean {
