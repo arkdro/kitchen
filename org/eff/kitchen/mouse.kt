@@ -44,6 +44,16 @@ abstract class Mouse() {
 
 }
 
+fun is_corner(coord: Coord, dir: Direction, allowed_food: Food, area): Boolean {
+    val deltas = dir.to_deltas()
+    val food_diagonal = area[coord.y + deltas.y][coord.x + deltas.x]
+    val food_x = area[coord.y][coord.x + deltas.x]
+    val food_y = area[coord.y + deltas.y][coord.x]
+    return food_diagonal != allowed_food
+            && food_x != allowed_food
+            && food_y != allowed_food
+}
+
 fun calc_new_coordinates(coord: Coord, direction: Direction): Coord {
     val deltas = direction.to_deltas()
     return Coord(coord.x + deltas.x, coord.y + deltas.y)
