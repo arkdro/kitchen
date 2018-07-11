@@ -17,10 +17,16 @@ abstract class Mouse() {
         } else {
             var new_direction = get_new_direction()
             var new_coordinates = calc_new_coordinates(coord, new_direction)
-            if (!can_walk_farther(new_coordinates, allowed_food, area)) {
+            if (can_walk_farther(new_coordinates, allowed_food, area)) {
+                coord = calc_new_coordinates(coord, direction)
+                direction = new_direction
+            } else {
                 new_direction = flip_both_directions(direction)
                 new_coordinates = calc_new_coordinates(coord, new_direction)
-                if (!can_walk_farther(new_coordinates, allowed_food, area)) {
+                if (can_walk_farther(new_coordinates, allowed_food, area)) {
+                    coord = calc_new_coordinates(coord, direction)
+                    direction = new_direction
+                } else {
                     freeze()
                 }
             }
