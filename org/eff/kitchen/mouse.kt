@@ -33,7 +33,7 @@ abstract class Mouse() {
         }
     }
 
-    fun get_new_direction(area): Direction =
+    private fun get_new_direction(area): Direction =
             when {
                 can_walk(coord, direction, allowed_food, area) -> direction
                 is_corner(coord, direction, allowed_food, area) -> flip_both_directions(direction)
