@@ -15,17 +15,15 @@ abstract class Mouse() {
         if (can_walk_farther(coord, direction, allowed_food, area)) {
             coord = calc_new_coordinates(coord, direction)
         } else {
-            var new_direction = get_new_direction()
-            var new_coordinates = calc_new_coordinates(coord, new_direction)
-            if (can_walk_farther(new_coordinates, allowed_food, area)) {
-                coord = calc_new_coordinates(coord, direction)
+            val new_direction = get_new_direction()
+            if (can_walk_farther(coord, new_direction, allowed_food, area)) {
+                coord = calc_new_coordinates(coord, new_direction)
                 direction = new_direction
             } else {
-                new_direction = flip_both_directions(direction)
-                new_coordinates = calc_new_coordinates(coord, new_direction)
-                if (can_walk_farther(new_coordinates, allowed_food, area)) {
-                    coord = calc_new_coordinates(coord, direction)
-                    direction = new_direction
+                val backward_direction = flip_both_directions(direction)
+                if (can_walk_farther(coord, backward_direction, allowed_food, area)) {
+                    coord = calc_new_coordinates(coord, backward_direction)
+                    direction = backward_direction
                 } else {
                     freeze()
                 }
