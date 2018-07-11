@@ -12,13 +12,17 @@ abstract class Mouse() {
     abstract val allowed_food: Food
 
     fun diagonal_move(area) {
-        var new_direction = get_new_direction(area)
-        var new_coordinates = calc_new_coordinates(coord, new_direction)
-        if (!can_walk(new_coordinates, allowed_food, area)) {
-            new_direction = flip_both_directions(direction)
-            new_coordinates = calc_new_coordinates(coord, new_direction)
-            if (!can_walk(new_coordinates, allowed_food, area)) {
-                freeze()
+        if (can_walk_farther(coord, direction, allowed_food, area)) {
+            coord = calc_new_coordinates(coord, direction)
+        } else {
+            var new_direction = get_new_direction()
+            var new_coordinates = calc_new_coordinates(coord, new_direction)
+            if (!can_walk_farther(new_coordinates, allowed_food, area)) {
+                new_direction = flip_both_directions(direction)
+                new_coordinates = calc_new_coordinates(coord, new_direction)
+                if (!can_walk_farther(new_coordinates, allowed_food, area)) {
+                    freeze()
+                }
             }
         }
     }
