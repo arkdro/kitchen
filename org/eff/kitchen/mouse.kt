@@ -15,7 +15,7 @@ abstract class Mouse() {
         if (can_walk_farther(coord, direction, allowed_food, area)) {
             coord = calc_new_coordinates(coord, direction)
         } else {
-            val new_direction = get_new_direction()
+            val new_direction = get_new_direction(coord, direction, allowed_food, area)
             if (can_walk_farther(coord, new_direction, allowed_food, area)) {
                 coord = calc_new_coordinates(coord, new_direction)
                 direction = new_direction
@@ -31,7 +31,7 @@ abstract class Mouse() {
         }
     }
 
-    private fun get_new_direction(area): Direction =
+    private fun get_new_direction(coord: Coord, dir: Direction, allowed_food: Food, area): Direction =
             when {
                 can_walk(coord, direction, allowed_food, area) -> direction
                 is_corner(coord, direction, allowed_food, area) -> flip_both_directions(direction)
