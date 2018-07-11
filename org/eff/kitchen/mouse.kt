@@ -44,6 +44,14 @@ abstract class Mouse() {
 
 }
 
+fun is_vertical_wall(coord: Coord, dir: Direction, allowed_food: Food, area): Boolean {
+    val deltas = dir.to_deltas()
+    val food_diagonal = area[coord.y + deltas.y][coord.x + deltas.x]
+    val food_x = area[coord.y][coord.x + deltas.x]
+    return food_diagonal != allowed_food
+            && food_x != allowed_food
+}
+
 fun is_corner(coord: Coord, dir: Direction, allowed_food: Food, area): Boolean {
     return is_open_corner(coord, dir, allowed_food, area)
             || is_closed_corner(coord, dir, allowed_food, area)
