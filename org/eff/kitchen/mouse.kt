@@ -36,6 +36,11 @@ abstract class Mouse() {
 
 }
 
+fun can_walk(coord: Coord, allowed_food: Food, area): Boolean {
+    val food = area[coord.y][coord.x]
+    return food == allowed_food
+}
+
 fun flip_horizontal_direction(d: Direction): Direction =
         when (d) {
             Direction.W -> Direction.E
