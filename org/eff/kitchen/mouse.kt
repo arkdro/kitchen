@@ -30,6 +30,10 @@ abstract class Mouse() {
                 is_vertical_wall(coord, direction, allowed_food, area) -> flip_horizontal_direction(direction)
                 else -> flip_vertical_direction(direction)
             }
+    private fun freeze() {
+        speed = 0
+    }
+
 }
 
 fun flip_horizontal_direction(d: Direction): Direction =
