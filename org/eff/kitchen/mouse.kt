@@ -31,18 +31,18 @@ abstract class Mouse() {
         }
     }
 
-    private fun get_new_direction(coord: Coord, dir: Direction, allowed_food: Food, area): Direction =
-            when {
-                is_corner(coord, dir, allowed_food, area) -> flip_both_directions(dir)
-                is_vertical_wall(coord, dir, allowed_food, area) -> flip_horizontal_direction(dir)
-                else -> flip_vertical_direction(dir)
-            }
-
     private fun freeze() {
         speed = 0
     }
 
 }
+
+private fun get_new_direction(coord: Coord, dir: Direction, allowed_food: Food, area): Direction =
+        when {
+            is_corner(coord, dir, allowed_food, area) -> flip_both_directions(dir)
+            is_vertical_wall(coord, dir, allowed_food, area) -> flip_horizontal_direction(dir)
+            else -> flip_vertical_direction(dir)
+        }
 
 fun is_vertical_wall(coord: Coord, dir: Direction, allowed_food: Food, area): Boolean {
     val deltas = dir.to_deltas()
