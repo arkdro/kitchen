@@ -1,9 +1,17 @@
 package org.eff.kitchen.field
 
+import org.eff.kitchen.coordinates.Coord
 import org.eff.kitchen.food.Food
 
 class Field(width: Int, height: Int, h_gap: Int, v_gap: Int) {
-    val field = fill_stock(width, height, h_gap, v_gap)
+    private val field = fill_stock(width, height, h_gap, v_gap)
+
+    fun get_point(coordinates: Coord): Food {
+        return field[coordinates.y][coordinates.x]
+    }
+    fun set_point(coordinates: Coord, value: Food) {
+        field[coordinates.y][coordinates.x] = value
+    }
 }
 
 fun fill_stock(width: Int, height: Int, h_gap: Int, v_gap: Int): Array<Array<Food>> {
