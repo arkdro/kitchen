@@ -3,6 +3,7 @@ package org.eff.kitchen.mouse
 import org.eff.kitchen.coordinates.Coord
 import org.eff.kitchen.direction.Direction
 import org.eff.kitchen.direction.to_deltas
+import org.eff.kitchen.field.Field
 import org.eff.kitchen.food.Food
 
 abstract class Mouse {
@@ -11,17 +12,17 @@ abstract class Mouse {
     abstract var speed: Int
     abstract val allowed_food: Food
 
-    fun diagonal_move(area) {
-        if (can_walk_farther(coord, direction, allowed_food, area)) {
+    fun diagonal_move(field: Field) {
+        if (can_walk_farther(coord, direction, allowed_food, field)) {
             coord = calc_new_coordinates(coord, direction)
         } else {
-            val new_direction = get_new_direction(coord, direction, allowed_food, area)
-            if (can_walk_farther(coord, new_direction, allowed_food, area)) {
+            val new_direction = get_new_direction(coord, direction, allowed_food, field)
+            if (can_walk_farther(coord, new_direction, allowed_food, field)) {
                 coord = calc_new_coordinates(coord, new_direction)
                 direction = new_direction
             } else {
                 val backward_direction = flip_both_directions(direction)
-                if (can_walk_farther(coord, backward_direction, allowed_food, area)) {
+                if (can_walk_farther(coord, backward_direction, allowed_food, field)) {
                     coord = calc_new_coordinates(coord, backward_direction)
                     direction = backward_direction
                 } else {
@@ -37,41 +38,49 @@ abstract class Mouse {
 
 }
 
-private fun get_new_direction(coord: Coord, dir: Direction, allowed_food: Food, area): Direction =
+private fun get_new_direction(coord: Coord, dir: Direction, allowed_food: Food, field: Field): Direction =
         when {
-            is_corner(coord, dir, allowed_food, area) -> flip_both_directions(dir)
-            is_vertical_wall(coord, dir, allowed_food, area) -> flip_horizontal_direction(dir)
+            is_corner(coord, dir, allowed_food, field) -> flip_both_directions(dir)
+            is_vertical_wall(coord, dir, allowed_food, field) -> flip_horizontal_direction(dir)
             else -> flip_vertical_direction(dir)
         }
 
-fun is_vertical_wall(coord: Coord, dir: Direction, allowed_food: Food, area): Boolean {
+fun is_vertical_wall(coord: Coord, dir: Direction, allowed_food: Food, field: Field): Boolean {
     val deltas = dir.to_deltas()
-    val food_diagonal = area[coord.y + deltas.y][coord.x + deltas.x]
-    val food_x = area[coord.y][coord.x + deltas.x]
+    val coordinates_diagonal = coord + deltas
+    val food_diagonal = field.get_point(coordinates_diagonal)
+    val coordinates_x = coord + Coord(deltas.x, 0)
+    val food_x = field.get_point(coordinates_x)
     return food_diagonal != allowed_food
             && food_x != allowed_food
 }
 
-fun is_corner(coord: Coord, dir: Direction, allowed_food: Food, area): Boolean {
-    return is_open_corner(coord, dir, allowed_food, area)
-            || is_closed_corner(coord, dir, allowed_food, area)
+fun is_corner(coord: Coord, dir: Direction, allowed_food: Food, field: Field): Boolean {
+    return is_open_corner(coord, dir, allowed_food, field)
+            || is_closed_corner(coord, dir, allowed_food, field)
 }
 
-fun is_open_corner(coord: Coord, dir: Direction, allowed_food: Food, area): Boolean {
+fun is_open_corner(coord: Coord, dir: Direction, allowed_food: Food, field: Field): Boolean {
     val deltas = dir.to_deltas()
-    val food_diagonal = area[coord.y + deltas.y][coord.x + deltas.x]
-    val food_x = area[coord.y][coord.x + deltas.x]
-    val food_y = area[coord.y + deltas.y][coord.x]
+    val coordinates_diagonal = coord + deltas
+    val food_diagonal = field.get_point(coordinates_diagonal)
+    val coordinates_x = coord + Coord(deltas.x, 0)
+    val food_x = field.get_point(coordinates_x)
+    val coordinates_y = coord + Coord(0, deltas.y)
+    val food_y = field.get_point(coordinates_y)
     return food_diagonal != allowed_food
             && food_x == allowed_food
             && food_y == allowed_food
 }
 
-fun is_closed_corner(coord: Coord, dir: Direction, allowed_food: Food, area): Boolean {
+fun is_closed_corner(coord: Coord, dir: Direction, allowed_food: Food, field: Field): Boolean {
     val deltas = dir.to_deltas()
-    val food_diagonal = area[coord.y + deltas.y][coord.x + deltas.x]
-    val food_x = area[coord.y][coord.x + deltas.x]
-    val food_y = area[coord.y + deltas.y][coord.x]
+    val coordinates_diagonal = coord + deltas
+    val food_diagonal = field.get_point(coordinates_diagonal)
+    val coordinates_x = coord + Coord(deltas.x, 0)
+    val food_x = field.get_point(coordinates_x)
+    val coordinates_y = coord + Coord(0, deltas.y)
+    val food_y = field.get_point(coordinates_y)
     return food_diagonal != allowed_food
             && food_x != allowed_food
             && food_y != allowed_food
@@ -82,9 +91,9 @@ fun calc_new_coordinates(coord: Coord, direction: Direction): Coord {
     return Coord(coord.x + deltas.x, coord.y + deltas.y)
 }
 
-fun can_walk_farther(coord: Coord, direction: Direction, allowed_food: Food, area): Boolean {
+fun can_walk_farther(coord: Coord, direction: Direction, allowed_food: Food, field: Field): Boolean {
     val new_coord = calc_new_coordinates(coord, direction)
-    val food = area[new_coord.y][new_coord.x]
+    val food = field.get_point(new_coord)
     return food == allowed_food
 }
 
