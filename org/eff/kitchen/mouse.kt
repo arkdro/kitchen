@@ -5,7 +5,7 @@ import org.eff.kitchen.direction.Direction
 import org.eff.kitchen.direction.to_deltas
 import org.eff.kitchen.food.Food
 
-abstract class Mouse() {
+abstract class Mouse {
     abstract var coord: Coord
     abstract var direction: Direction
     abstract var speed: Int
