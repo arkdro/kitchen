@@ -40,3 +40,8 @@ fun create_food_mice(): MutableList<Food_mouse> {
     }
     return list
 }
+
+fun build_food_mouse_coordinates(food_mice: List<Food_mouse>): Map<Coord, Mouse> {
+    val coords = food_mice.map { Pair(it.coord, it) }
+    return coords.toMap()
+}
