@@ -23,8 +23,8 @@ class Place {
 
     private fun display() {
         val food_mouse_coordinates = build_food_mouse_coordinates(food_mice)
-        for (y in 0..height) {
-            for (x in 0..width) {
+        for (y in 0 until height) {
+            for (x in 0 until width) {
                 val display_point: Char
                 if (food_mouse_coordinates.contains(Coord(x, y))) {
                     val mouse = food_mouse_coordinates[Coord(x, y)]

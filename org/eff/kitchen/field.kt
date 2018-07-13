@@ -16,8 +16,8 @@ class Field(width: Int, height: Int, h_gap: Int, v_gap: Int) {
 
 fun fill_stock(width: Int, height: Int, h_gap: Int, v_gap: Int): Array<Array<Food>> {
     val stock = Array(height, {Array(width, { Food.FULL })})
-    for (y in 0..height) {
-        for (x in 0..width) {
+    for (y in 0 until height) {
+        for (x in 0 until width) {
             stock[y][x] = food_at_coordinates(width, height, h_gap, v_gap, x, y)
         }
     }
