@@ -12,6 +12,7 @@ abstract class Mouse : Move {
     abstract var direction: Direction
     abstract var speed: Int
     abstract val allowed_food: Food
+    abstract fun to_char(): Char
 
     fun diagonal_move(field: Field) {
         if (can_walk_farther(coord, direction, allowed_food, field)) {

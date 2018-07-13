@@ -11,6 +11,7 @@ class Food_mouse(initial_corner: Coord, finish_corner: Coord) : Mouse() {
     override var direction: Direction = create_random_direction()
     override var speed = 1
     override val allowed_food = Food.FULL
+    override fun to_char(): Char = 'O'
     override fun move(field: Field) {
         diagonal_move(field)
     }
