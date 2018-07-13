@@ -15,6 +15,18 @@ class Place {
     //val catcher = Catcher()
     val food_mice = create_food_mice()
     //val ground_mice = MutableList<Ground_mouse>(0, {})
+    fun run() {
+        display()
+        update_mice()
+    }
+
+    private fun display() {
+
+    }
+
+    private fun update_mice() {
+        food_mice.forEach { it.move(field) }
+    }
 }
 
 fun create_food_mice(): MutableList<Food_mouse> {
