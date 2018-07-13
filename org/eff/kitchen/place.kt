@@ -4,6 +4,7 @@ package org.eff.kitchen.place
 import org.eff.kitchen.coordinates.Coord
 import org.eff.kitchen.field.Field
 import org.eff.kitchen.mouse.Food_mouse
+import org.eff.kitchen.mouse.Mouse
 
 const val width = 30
 const val height = 30
@@ -21,7 +22,22 @@ class Place {
     }
 
     private fun display() {
-
+        val food_mouse_coordinates = build_food_mouse_coordinates(food_mice)
+        for (y in 0..height) {
+            for (x in 0..width) {
+                val display_point: Char
+                if (food_mouse_coordinates.contains(Coord(x, y))) {
+                    val mouse = food_mouse_coordinates[Coord(x, y)]
+                    display_point = mouse!!.to_char()
+                } else {
+                    display_point = field.get_point(Coord(x, y)).to_char()
+                }
+                print(display_point)
+            }
+            println()
+        }
+        println()
+        println()
     }
 
     private fun update_mice() {
