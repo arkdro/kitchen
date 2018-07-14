@@ -3,7 +3,7 @@ package org.eff.kitchen.field
 import org.eff.kitchen.coordinates.Coord
 import org.eff.kitchen.food.Food
 
-class Field(width: Int, height: Int, h_gap: Int, v_gap: Int) {
+class Field(val width: Int, val height: Int, val h_gap: Int, val v_gap: Int) {
     private val field = fill_stock(width, height, h_gap, v_gap)
 
     fun get_point(coordinates: Coord): Food {
