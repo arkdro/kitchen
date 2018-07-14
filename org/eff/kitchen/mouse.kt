@@ -15,6 +15,8 @@ abstract class Mouse : Move {
     abstract fun to_char(): Char
 
     fun diagonal_move(field: Field) {
+        val old_direction = direction
+        val old_coordinates = coord
         if (can_walk_farther(coord, direction, allowed_food, field)) {
             coord = calc_new_coordinates(coord, direction)
         } else {
@@ -31,6 +33,9 @@ abstract class Mouse : Move {
                     freeze()
                 }
             }
+        }
+        if (wrong_background(field, coord, allowed_food)) {
+            log_error(field, coord, direction, old_coordinates, old_direction, allowed_food)
         }
     }
 
@@ -125,3 +130,20 @@ fun flip_vertical_direction(d: Direction): Direction =
 
 fun flip_both_directions(d: Direction): Direction =
         flip_horizontal_direction(flip_vertical_direction(d))
+
+private fun wrong_background(field: Field, coord: Coord, allowed_food: Food): Boolean {
+    return field.get_point(coord) != allowed_food
+}
+
+private fun log_error(field: Field, new_coord: Coord, new_direction: Direction,
+                      old_coordinates: Coord, old_direction: Direction,
+                      allowed_food: Food) {
+    println("wrong background:")
+    println("field:\n$field")
+    println("food at coordinates: ${field.get_point(new_coord)}")
+    println("allowed_food: $allowed_food")
+    println("old coordinates: $old_coordinates")
+    println("new coordinates: $new_coord")
+    println("old direction: $old_direction")
+    println("new direction: $new_direction")
+}
