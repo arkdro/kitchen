@@ -12,6 +12,17 @@ class Field(val width: Int, val height: Int, val h_gap: Int, val v_gap: Int) {
     fun set_point(coordinates: Coord, value: Food) {
         field[coordinates.y][coordinates.x] = value
     }
+    override fun toString(): String {
+        val sb = StringBuilder()
+        for (y in 0 until height) {
+            for (x in 0 until width) {
+                val display_point = get_point(Coord(x, y)).to_char()
+                sb.append(display_point)
+            }
+            sb.append("\n")
+        }
+        return sb.toString()
+    }
 }
 
 fun fill_stock(width: Int, height: Int, h_gap: Int, v_gap: Int): Array<Array<Food>> {
