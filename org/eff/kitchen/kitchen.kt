@@ -1,6 +1,7 @@
 package org.eff.kitchen
 
 import mu.KotlinLogging
+import org.eff.kitchen.direction.Direction
 import org.eff.kitchen.place.Place
 import org.frice.Game
 import org.frice.launch
