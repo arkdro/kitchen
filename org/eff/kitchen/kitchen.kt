@@ -4,6 +4,9 @@ import mu.KotlinLogging
 import org.eff.kitchen.place.Place
 import org.frice.Game
 import org.frice.launch
+import org.frice.platform.FriceDrawer
+import java.awt.event.KeyEvent
+import java.awt.event.KeyListener
 
 private val logger = KotlinLogging.logger {}
 
