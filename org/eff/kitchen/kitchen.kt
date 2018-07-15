@@ -5,7 +5,6 @@ import org.eff.kitchen.direction.Direction
 import org.eff.kitchen.place.Place
 import org.frice.Game
 import org.frice.launch
-import org.frice.platform.FriceDrawer
 import java.awt.event.KeyEvent
 import java.awt.event.KeyListener
 
@@ -49,9 +48,6 @@ class Kitchen : Game() {
         place.one_iteration()
     }
 
-//    override fun customDraw(g: FriceDrawer) {
-//        super.customDraw(g)
-//    }
 }
 
 private fun is_allowed_key(key: Int): Boolean {
