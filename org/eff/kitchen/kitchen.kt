@@ -69,3 +69,16 @@ private val allowed_keys =
                 KeyEvent.VK_NUMPAD9
         )
 
+private fun key_event_to_direction(d: Int): Direction =
+        when (d) {
+            KeyEvent.VK_UP -> Direction.N
+            KeyEvent.VK_DOWN -> Direction.S
+            KeyEvent.VK_LEFT -> Direction.W
+            KeyEvent.VK_RIGHT -> Direction.E
+            KeyEvent.VK_NUMPAD1 -> Direction.SW
+            KeyEvent.VK_NUMPAD3 -> Direction.SE
+            KeyEvent.VK_NUMPAD7 -> Direction.NW
+            KeyEvent.VK_NUMPAD9 -> Direction.NE
+            else -> Direction.N
+        }
+
