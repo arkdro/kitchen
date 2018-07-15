@@ -1,11 +1,14 @@
 package org.eff.kitchen.mouse
 
+import mu.KotlinLogging
 import org.eff.kitchen.coordinates.Coord
 import org.eff.kitchen.direction.Direction
 import org.eff.kitchen.direction.to_deltas
 import org.eff.kitchen.field.Field
 import org.eff.kitchen.food.Food
 import org.eff.kitchen.move.Move
+
+private val logger = KotlinLogging.logger {}
 
 abstract class Mouse : Move {
     abstract var coord: Coord
@@ -33,6 +36,15 @@ abstract class Mouse : Move {
                     freeze()
                 }
             }
+        }
+        logger.debug {
+            """
+            food at coordinates: ${field.get_point(coord)}
+            allowed_food: $allowed_food
+            old coordinates: $old_coordinates
+            new coordinates: $coord
+            old direction: $old_direction
+            new direction: $direction"""
         }
         if (wrong_background(field, coord, allowed_food)) {
             log_error(field, coord, direction, old_coordinates, old_direction, allowed_food)
@@ -138,12 +150,14 @@ private fun wrong_background(field: Field, coord: Coord, allowed_food: Food): Bo
 private fun log_error(field: Field, new_coord: Coord, new_direction: Direction,
                       old_coordinates: Coord, old_direction: Direction,
                       allowed_food: Food) {
-    println("wrong background:")
-    println("field:\n$field")
-    println("food at coordinates: ${field.get_point(new_coord)}")
-    println("allowed_food: $allowed_food")
-    println("old coordinates: $old_coordinates")
-    println("new coordinates: $new_coord")
-    println("old direction: $old_direction")
-    println("new direction: $new_direction")
+    logger.error(
+            "wrong background:\n"
+                    + "field:\n$field\n"
+                    + "food at coordinates: ${field.get_point(new_coord)}\n"
+                    + "allowed_food: $allowed_food\n"
+                    + "old coordinates: $old_coordinates\n"
+                    + "new coordinates: $new_coord\n"
+                    + "old direction: $old_direction\n"
+                    + "new direction: $new_direction"
+    )
 }
