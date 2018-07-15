@@ -18,10 +18,14 @@ class Place {
     //val ground_mice = MutableList<Ground_mouse>(0, {})
     fun run() {
         while (true) {
-            display()
-            update_mice()
-            Thread.sleep(500)
+            one_iteration()
         }
+    }
+
+    fun one_iteration() {
+        display()
+        update_mice()
+        Thread.sleep(500)
     }
 
     private fun display() {
