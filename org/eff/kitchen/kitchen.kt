@@ -15,7 +15,7 @@ class Kitchen : Game() {
         logger.info("kitchen started")
     }
     private val place = Place()
-    private var direction = KeyEvent.VK_SPACE // stop
+    private var key_pressed = KeyEvent.VK_SPACE // stop
     override fun onInit() {
         super.onInit()
         val window_width = 300
@@ -27,11 +27,8 @@ class Kitchen : Game() {
         addKeyListener(object : KeyListener {
             override fun keyTyped(e: KeyEvent) = Unit
             override fun keyPressed(e: KeyEvent) {
-                val code = e.keyCode
-                if (is_allowed_key(code)) {
-                    logger.debug {"pressed: $e, ${e.keyChar}, ${e.keyCode}"}
-                    direction = code
-                }
+                logger.debug {"pressed: $e, ${e.keyChar}, ${e.keyCode}"}
+                key_pressed = e.keyCode
             }
             override fun keyReleased(e: KeyEvent) = Unit
         })
@@ -44,7 +41,10 @@ class Kitchen : Game() {
 
     override fun onRefresh() {
         super.onRefresh()
-        place.set_new_direction(key_event_to_direction(direction))
+        if (is_allowed_key(key_pressed)) {
+            logger.debug {"pressed: $key_pressed"}
+            place.set_new_direction(key_event_to_direction(key_pressed))
+        }
         place.one_iteration()
     }
 
