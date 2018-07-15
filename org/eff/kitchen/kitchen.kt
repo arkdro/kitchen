@@ -55,6 +55,8 @@ class Kitchen : Game() {
 fun main(args: Array<String>) {
     val place = Place()
     place.run()
+private fun is_allowed_key(key: Int): Boolean {
+    return allowed_keys.contains(key)
 }
 
 private val allowed_keys =
