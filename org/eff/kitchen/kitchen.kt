@@ -49,12 +49,11 @@ class Kitchen : Game() {
         place.one_iteration()
     }
 
+//    override fun customDraw(g: FriceDrawer) {
+//        super.customDraw(g)
+//    }
 }
 
-// fun main(args: Array<String>) = launch(Kitchen::class.java)
-fun main(args: Array<String>) {
-    val place = Place()
-    place.run()
 private fun is_allowed_key(key: Int): Boolean {
     return allowed_keys.contains(key)
 }
@@ -85,3 +84,4 @@ private fun key_event_to_direction(d: Int): Direction =
             else -> Direction.N
         }
 
+fun main(args: Array<String>) = launch(Kitchen::class.java)
