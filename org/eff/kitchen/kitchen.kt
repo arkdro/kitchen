@@ -42,6 +42,12 @@ class Kitchen : Game() {
         System.exit(0)
     }
 
+    override fun onRefresh() {
+        super.onRefresh()
+        place.set_new_direction(key_event_to_direction(direction))
+        place.one_iteration()
+    }
+
 }
 
 // fun main(args: Array<String>) = launch(Kitchen::class.java)
