@@ -37,6 +37,11 @@ class Kitchen : Game() {
         })
 
     }
+
+    override fun onExit() {
+        System.exit(0)
+    }
+
 }
 
 // fun main(args: Array<String>) = launch(Kitchen::class.java)
