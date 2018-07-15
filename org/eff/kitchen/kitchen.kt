@@ -71,6 +71,7 @@ private val allowed_keys =
                 KeyEvent.VK_NUMPAD9
         )
 
+// for debug only
 private fun key_event_to_direction(d: Int): Direction =
         when (d) {
             KeyEvent.VK_UP -> Direction.N
