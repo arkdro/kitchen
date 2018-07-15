@@ -56,3 +56,16 @@ fun main(args: Array<String>) {
     place.run()
 }
 
+private val allowed_keys =
+        setOf(
+                KeyEvent.VK_UP,
+                KeyEvent.VK_DOWN,
+                KeyEvent.VK_LEFT,
+                KeyEvent.VK_RIGHT,
+                // following num pad keys are for debug only
+                KeyEvent.VK_NUMPAD1,
+                KeyEvent.VK_NUMPAD3,
+                KeyEvent.VK_NUMPAD7,
+                KeyEvent.VK_NUMPAD9
+        )
+
