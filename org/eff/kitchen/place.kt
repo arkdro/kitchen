@@ -2,6 +2,7 @@ package org.eff.kitchen.place
 
 
 import org.eff.kitchen.coordinates.Coord
+import org.eff.kitchen.direction.Direction // for debug only
 import org.eff.kitchen.field.Field
 import org.eff.kitchen.mouse.Food_mouse
 import org.eff.kitchen.mouse.Mouse
@@ -26,6 +27,12 @@ class Place {
         display()
         update_mice()
         Thread.sleep(500)
+    }
+
+    // for debug only
+    fun set_new_direction(d: Direction) {
+        val mouse = food_mice[0]
+        mouse.direction = d
     }
 
     private fun display() {
