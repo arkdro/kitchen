@@ -1,6 +1,8 @@
 package org.eff.kitchen
 
+import com.uchuhimo.konf.Config
 import mu.KotlinLogging
+import org.eff.kitchen.config.Srv
 import org.eff.kitchen.config.build_config
 import org.eff.kitchen.direction.Direction
 import org.eff.kitchen.place.Place
@@ -14,23 +16,24 @@ import java.awt.event.KeyEvent
 import java.awt.event.KeyListener
 
 private val logger = KotlinLogging.logger {}
+private val config = build_config()
 
 class Kitchen : Game() {
     private lateinit var g_field: FObject
     init {
         g_field = ShapeObject(ColorResource.LIGHT_GRAY,
-                FRectangle(190, 100),
-                100.0, 75.0)
+                FRectangle(config[Srv.width], config[Srv.height]),
+                0.0, 0.0)
         logger.info("kitchen started")
-        logger.info("cfg: ${build_config()}")
+        logger.info("config: $config")
     }
     private lateinit var g_mouse: FObject
     private val place = Place()
     private var key_pressed = KeyEvent.VK_SPACE // stop
     override fun onInit() {
         super.onInit()
-        val window_width = 600
-        val window_height = 400
+        val window_width = config[Srv.width]
+        val window_height = config[Srv.height]
         setSize(window_width, window_height)
         autoGC = false
         isResizable = true
