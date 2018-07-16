@@ -13,6 +13,7 @@ dependencies {
     compile 'org.frice:engine:1.8.3'
     compile 'io.github.microutils:kotlin-logging:1.5.4'
     compile 'ch.qos.logback:logback-classic:1.2.3'
+    compile 'com.uchuhimo:konf:0.10'
 }
 
 sourceSets {

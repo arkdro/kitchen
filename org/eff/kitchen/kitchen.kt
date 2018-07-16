@@ -1,6 +1,7 @@
 package org.eff.kitchen
 
 import mu.KotlinLogging
+import org.eff.kitchen.config.build_config
 import org.eff.kitchen.direction.Direction
 import org.eff.kitchen.place.Place
 import org.frice.Game
@@ -13,6 +14,7 @@ private val logger = KotlinLogging.logger {}
 class Kitchen : Game() {
     init {
         logger.info("kitchen started")
+        logger.info("cfg: ${build_config()}")
     }
     private val place = Place()
     private var key_pressed = KeyEvent.VK_SPACE // stop
