@@ -44,7 +44,7 @@ class Kitchen : Game() {
     override fun onRefresh() {
         super.onRefresh()
         if (is_allowed_key(key_pressed)) {
-            logger.debug {"pressed: $key_pressed"}
+            logger.debug {"pressed, onRefresh: $key_pressed"}
             place.set_new_direction(key_event_to_direction(key_pressed))
         }
         place.one_iteration()
