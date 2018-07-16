@@ -21,9 +21,6 @@ private val config = build_config()
 class Kitchen : Game() {
     private lateinit var g_field: FObject
     init {
-        g_field = ShapeObject(ColorResource.LIGHT_GRAY,
-                FRectangle(config[Srv.width], config[Srv.height]),
-                0.0, 0.0)
         logger.info("kitchen started")
         logger.info("config: $config")
     }
@@ -32,6 +29,8 @@ class Kitchen : Game() {
     private var key_pressed = KeyEvent.VK_SPACE // stop
     override fun onInit() {
         super.onInit()
+        g_field = ShapeObject(ColorResource.CYAN,
+                FRectangle(config[Srv.width], config[Srv.height]))
         val window_width = config[Srv.width]
         val window_height = config[Srv.height]
         setSize(window_width, window_height)
