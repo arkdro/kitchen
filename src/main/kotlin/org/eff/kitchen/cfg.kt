@@ -3,21 +3,26 @@ package org.eff.kitchen.config
 import com.uchuhimo.konf.Config
 import com.uchuhimo.konf.ConfigSpec
 
-fun build_config() {
+fun build_config(): Config {
     val config = Config { addSpec(Srv) }
             .withSourceFrom.hocon.resource("server.conf")
             .withSourceFrom.env()
             .withSourceFrom.systemProperties()
-    val h = config[Srv.host]
-    val p = config[Srv.port]
-    println("host: $h")
-    println("port: $p")
-    println("conf: $config")
+    return config
 }
 
 class Srv {
     companion object : ConfigSpec("srv") {
-        val host by optional("0.0.0.0")
-        val port by required<Int>()
+        val horizontal_cells by optional<Int>(10)
+        val vertical_cells by optional<Int>(10)
+        val cell_size by optional<Int>(20)
+        val scale by optional<Int>(1)
+        val width by lazy { config ->
+            config[horizontal_cells] * config[cell_size] * config[scale]
+        }
+        val height by lazy { config ->
+            config[vertical_cells] * config[cell_size] * config[scale]
+        }
+
     }
 }
