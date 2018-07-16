@@ -20,11 +20,11 @@ class Kitchen : Game() {
     private var key_pressed = KeyEvent.VK_SPACE // stop
     override fun onInit() {
         super.onInit()
-        val window_width = 300
-        val window_height = 200
+        val window_width = 600
+        val window_height = 400
         setSize(window_width, window_height)
         autoGC = false
-        isResizable = false
+        isResizable = true
         title = "The kitchen"
         addKeyListener(object : KeyListener {
             override fun keyTyped(e: KeyEvent) = Unit
