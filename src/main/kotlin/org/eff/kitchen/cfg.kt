@@ -13,9 +13,9 @@ fun build_config(): Config {
 
 class Srv {
     companion object : ConfigSpec("srv") {
-        val horizontal_cells by optional<Int>(10)
-        val vertical_cells by optional<Int>(10)
-        val cell_size by optional<Int>(20)
+        val horizontal_cells by optional<Int>(10, "amount.horizontal")
+        val vertical_cells by optional<Int>(10, "amount.vertical")
+        val cell_size by optional<Int>(20, "cell.size")
         val scale by optional<Int>(1)
         val width by lazy { config ->
             config[horizontal_cells] * config[cell_size] * config[scale]
