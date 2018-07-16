@@ -16,10 +16,6 @@ dependencies {
     compile 'com.uchuhimo:konf:0.10'
 }
 
-sourceSets {
-    main.java.srcDirs += 'org'
-}
-
 task fatJar(type: Jar) {
     manifest {
         attributes 'Implementation-Title': 'Gradle Jar File Example',
