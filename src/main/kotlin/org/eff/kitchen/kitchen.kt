@@ -46,6 +46,7 @@ class Kitchen : Game() {
             }
             override fun keyReleased(e: KeyEvent) = Unit
         })
+        addObject(g_field)
     }
 
     override fun onExit() {
