@@ -4,6 +4,7 @@ import com.uchuhimo.konf.Config
 import mu.KotlinLogging
 import org.eff.kitchen.config.Srv
 import org.eff.kitchen.config.build_config
+import org.eff.kitchen.coordinates.Coord
 import org.eff.kitchen.direction.Direction
 import org.eff.kitchen.mouse.Food_mouse
 import org.eff.kitchen.place.Place
@@ -73,23 +74,10 @@ class Kitchen : Game() {
     }
 
     private fun redraw_mice() {
-        val g_step = config[Srv.step]
-        val g_width = config[Srv.cell_size] * config[Srv.scale]
-        val g_height = config[Srv.cell_size] * config[Srv.scale]
         for (mouse in place.food_mice) {
-            val old_coordinates = mouse.old_coordinates
-            val g_mouse_remove = ShapeObject(ColorResource.BLACK,
-                    FRectangle(g_width,
-                            g_height),
-                    old_coordinates.x.toDouble() * g_step,
-                    old_coordinates.y.toDouble() * g_step)
+            val g_mouse_remove = create_one_mouse_object(mouse.old_coordinates)
             removeObject(g_mouse_remove)
-            val new_coordinates = mouse.coord
-            val g_mouse_add = ShapeObject(ColorResource.BLACK,
-                    FRectangle(g_width,
-                            g_height),
-                    new_coordinates.x.toDouble() * g_step,
-                    new_coordinates.y.toDouble() * g_step)
+            val g_mouse_add = create_one_mouse_object(mouse.coord)
             addObject(g_mouse_add)
         }
     }
@@ -98,18 +86,23 @@ class Kitchen : Game() {
 
 private fun create_mouse_objects(mice: List<Food_mouse>): List<FObject> {
     val coordinates = build_food_mouse_coordinates(mice)
-    val g_step = config[Srv.step]
-    val g_width = config[Srv.cell_size] * config[Srv.scale]
-    val g_height = config[Srv.cell_size] * config[Srv.scale]
     val result = mutableListOf<FObject>()
     for ((coord, _) in coordinates) {
-        val g_mouse = ShapeObject(ColorResource.BLACK,
-                FRectangle(g_width, g_height),
-                coord.x.toDouble() * g_step,
-                coord.y.toDouble() * g_step)
+        val g_mouse = create_one_mouse_object(coord)
         result.add(g_mouse)
     }
     return result
+}
+
+private fun create_one_mouse_object(coord: Coord): FObject {
+    val g_step = config[Srv.step]
+    val g_width = config[Srv.cell_size] * config[Srv.scale]
+    val g_height = config[Srv.cell_size] * config[Srv.scale]
+    val g_mouse = ShapeObject(ColorResource.BLACK,
+            FRectangle(g_width, g_height),
+            coord.x.toDouble() * g_step,
+            coord.y.toDouble() * g_step)
+    return g_mouse
 }
 
 private fun is_allowed_key(key: Int): Boolean {
