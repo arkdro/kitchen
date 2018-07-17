@@ -25,7 +25,10 @@ class Kitchen : Game() {
         logger.info("config: $config")
     }
     private lateinit var g_mouse: FObject
-    private val place = Place()
+    private val place = Place(config[Srv.horizontal_cells],
+            config[Srv.vertical_cells],
+            config[Srv.horizontal_gap],
+            config[Srv.vertical_gap])
     private var key_pressed = KeyEvent.VK_SPACE // stop
     override fun onInit() {
         super.onInit()

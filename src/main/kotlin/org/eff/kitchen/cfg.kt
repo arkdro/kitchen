@@ -15,6 +15,8 @@ class Srv {
     companion object : ConfigSpec("srv") {
         val horizontal_cells by optional<Int>(10, "amount.horizontal")
         val vertical_cells by optional<Int>(10, "amount.vertical")
+        val horizontal_gap by optional<Int>(2, "gap.horizontal")
+        val vertical_gap by optional<Int>(2, "gap.vertical")
         val cell_size by optional<Int>(20, "cell.size")
         val scale by optional<Int>(1)
         val width by lazy { config ->
@@ -22,6 +24,9 @@ class Srv {
         }
         val height by lazy { config ->
             config[vertical_cells] * config[cell_size] * config[scale]
+        }
+        val step by lazy { config ->
+            config[cell_size] * config[scale]
         }
 
     }

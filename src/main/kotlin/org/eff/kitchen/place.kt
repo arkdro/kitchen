@@ -7,15 +7,10 @@ import org.eff.kitchen.field.Field
 import org.eff.kitchen.mouse.Food_mouse
 import org.eff.kitchen.mouse.Mouse
 
-const val width = 30
-const val height = 30
-const val v_gap = 3
-const val h_gap = 3
-
-class Place {
+class Place(val width: Int, val height: Int, val h_gap: Int, val v_gap: Int) {
     var field = Field(width, height, h_gap, v_gap)
     //val catcher = Catcher()
-    val food_mice = create_food_mice()
+    val food_mice = create_food_mice(width, height, h_gap, v_gap)
     //val ground_mice = MutableList<Ground_mouse>(0, {})
     fun run() {
         while (true) {
@@ -59,7 +54,7 @@ class Place {
     }
 }
 
-fun create_food_mice(): MutableList<Food_mouse> {
+fun create_food_mice(width: Int, height: Int, h_gap: Int, v_gap: Int): MutableList<Food_mouse> {
     val num = 1
     val list = mutableListOf<Food_mouse>()
     for (x in 1..num) {
