@@ -67,6 +67,29 @@ class Kitchen : Game() {
             }
         }
         place.one_iteration()
+        redraw_mice()
+    }
+
+    private fun redraw_mice() {
+        val g_step = config[Srv.step]
+        val g_width = config[Srv.cell_size] * config[Srv.scale]
+        val g_height = config[Srv.cell_size] * config[Srv.scale]
+        for (mouse in place.food_mice) {
+            val old_coordinates = mouse.old_coordinates
+            var g_mouse_local = ShapeObject(ColorResource.CYAN,
+                    FRectangle(g_width,
+                            g_height),
+                    old_coordinates.x.toDouble() * g_step,
+                    old_coordinates.y.toDouble() * g_step)
+            removeObject(g_mouse_local)
+            val new_coordinates = mouse.coord
+            g_mouse_local = ShapeObject(ColorResource.BLACK,
+                    FRectangle(g_width,
+                            g_height),
+                    new_coordinates.x.toDouble() * g_step,
+                    new_coordinates.y.toDouble() * g_step)
+            addObject(g_mouse_local)
+        }
     }
 
 }
