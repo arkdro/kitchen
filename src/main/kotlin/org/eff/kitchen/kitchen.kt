@@ -25,15 +25,16 @@ class Kitchen : Game() {
         logger.info("config: $config")
     }
     private lateinit var g_mouse: FObject
-    private val place = Place(config[Srv.horizontal_cells],
-            config[Srv.vertical_cells],
-            config[Srv.horizontal_gap],
-            config[Srv.vertical_gap])
+    private lateinit var place: Place
     private var key_pressed = KeyEvent.VK_SPACE // stop
     override fun onInit() {
         super.onInit()
         g_field = ShapeObject(ColorResource.CYAN,
                 FRectangle(config[Srv.width], config[Srv.height]))
+        place = Place(config[Srv.horizontal_cells],
+                config[Srv.vertical_cells],
+                config[Srv.horizontal_gap],
+                config[Srv.vertical_gap])
         val window_width = config[Srv.width]
         val window_height = config[Srv.height]
         setSize(window_width, window_height)
