@@ -78,19 +78,19 @@ class Kitchen : Game() {
         val g_height = config[Srv.cell_size] * config[Srv.scale]
         for (mouse in place.food_mice) {
             val old_coordinates = mouse.old_coordinates
-            val g_mouse_local = ShapeObject(ColorResource.BLACK,
+            val g_mouse_remove = ShapeObject(ColorResource.BLACK,
                     FRectangle(g_width,
                             g_height),
                     old_coordinates.x.toDouble() * g_step,
                     old_coordinates.y.toDouble() * g_step)
-            removeObject(g_mouse_local)
+            removeObject(g_mouse_remove)
             val new_coordinates = mouse.coord
-            val g_mouse_local = ShapeObject(ColorResource.BLACK,
+            val g_mouse_add = ShapeObject(ColorResource.BLACK,
                     FRectangle(g_width,
                             g_height),
                     new_coordinates.x.toDouble() * g_step,
                     new_coordinates.y.toDouble() * g_step)
-            addObject(g_mouse_local)
+            addObject(g_mouse_add)
         }
     }
 
