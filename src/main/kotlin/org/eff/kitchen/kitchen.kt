@@ -85,7 +85,7 @@ class Kitchen : Game() {
                     old_coordinates.y.toDouble() * g_step)
             removeObject(g_mouse_local)
             val new_coordinates = mouse.coord
-            g_mouse_local = ShapeObject(ColorResource.BLACK,
+            val g_mouse_local = ShapeObject(ColorResource.BLACK,
                     FRectangle(g_width,
                             g_height),
                     new_coordinates.x.toDouble() * g_step,
