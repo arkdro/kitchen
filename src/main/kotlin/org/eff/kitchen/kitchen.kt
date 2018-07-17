@@ -20,17 +20,16 @@ private val config = build_config()
 
 class Kitchen : Game() {
     private lateinit var g_field: FObject
+
     init {
         logger.info("kitchen started")
         logger.info("config: $config")
     }
-    private lateinit var g_mouse: FObject
+
     private lateinit var place: Place
     private var key_pressed = KeyEvent.VK_SPACE // stop
     override fun onInit() {
         super.onInit()
-        g_field = ShapeObject(ColorResource.CYAN,
-                FRectangle(config[Srv.width], config[Srv.height]))
         place = Place(config[Srv.horizontal_cells],
                 config[Srv.vertical_cells],
                 config[Srv.horizontal_gap],
@@ -61,11 +60,6 @@ class Kitchen : Game() {
         if (is_allowed_key(key_pressed)) {
             logger.debug {"pressed, onRefresh: $key_pressed"}
             place.set_new_direction(key_event_to_direction(key_pressed))
-            if(key_pressed == KeyEvent.VK_NUMPAD1) {
-                addObject(g_field)
-            } else {
-                removeObject(g_field)
-            }
         }
         place.one_iteration()
         redraw_mice()
