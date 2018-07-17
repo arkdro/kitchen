@@ -48,9 +48,14 @@ class Kitchen : Game() {
                 logger.debug { "pressed: $e, ${e.keyChar}, ${e.keyCode}" }
                 key_pressed = e.keyCode
             }
+
             override fun keyReleased(e: KeyEvent) = Unit
         })
+        g_field = ShapeObject(ColorResource.CYAN,
+                FRectangle(config[Srv.width], config[Srv.height]))
         addObject(g_field)
+        val g_mice = create_mouse_objects(place.food_mice)
+        g_mice.forEach { addObject(it) }
     }
 
     override fun onExit() {
