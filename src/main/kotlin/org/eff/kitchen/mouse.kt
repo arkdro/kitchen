@@ -16,10 +16,11 @@ abstract class Mouse : Move {
     abstract var speed: Int
     abstract val allowed_food: Food
     abstract fun to_char(): Char
+    lateinit var old_coordinates: Coord // lateinit or real init somehow?
 
     fun diagonal_move(field: Field) {
         val old_direction = direction
-        val old_coordinates = coord
+        old_coordinates = coord
         if (can_walk_farther(coord, direction, allowed_food, field)) {
             coord = calc_new_coordinates(coord, direction)
         } else {
