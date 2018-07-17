@@ -78,7 +78,7 @@ class Kitchen : Game() {
         val g_height = config[Srv.cell_size] * config[Srv.scale]
         for (mouse in place.food_mice) {
             val old_coordinates = mouse.old_coordinates
-            var g_mouse_local = ShapeObject(ColorResource.CYAN,
+            val g_mouse_local = ShapeObject(ColorResource.BLACK,
                     FRectangle(g_width,
                             g_height),
                     old_coordinates.x.toDouble() * g_step,
