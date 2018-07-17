@@ -5,7 +5,9 @@ import mu.KotlinLogging
 import org.eff.kitchen.config.Srv
 import org.eff.kitchen.config.build_config
 import org.eff.kitchen.direction.Direction
+import org.eff.kitchen.mouse.Food_mouse
 import org.eff.kitchen.place.Place
+import org.eff.kitchen.place.build_food_mouse_coordinates
 import org.frice.Game
 import org.frice.launch
 import org.frice.obj.FObject
@@ -87,6 +89,22 @@ class Kitchen : Game() {
         }
     }
 
+}
+
+private fun create_mouse_objects(mice: List<Food_mouse>): List<FObject> {
+    val coordinates = build_food_mouse_coordinates(mice)
+    val g_step = config[Srv.step]
+    val g_width = config[Srv.cell_size] * config[Srv.scale]
+    val g_height = config[Srv.cell_size] * config[Srv.scale]
+    val result = mutableListOf<FObject>()
+    for ((coord, _) in coordinates) {
+        val g_mouse = ShapeObject(ColorResource.BLACK,
+                FRectangle(g_width, g_height),
+                coord.x.toDouble() * g_step,
+                coord.y.toDouble() * g_step)
+        result.add(g_mouse)
+    }
+    return result
 }
 
 private fun is_allowed_key(key: Int): Boolean {
