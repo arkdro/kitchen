@@ -76,10 +76,10 @@ class Kitchen : Game() {
 
     private fun redraw_mice() {
         for (mouse in place.food_mice) {
-            val g_mouse_remove = create_one_mouse_object(mouse.old_coordinates)
-            removeObject(g_mouse_remove)
-            val g_mouse_add = create_one_mouse_object(mouse.coord)
-            addObject(g_mouse_add)
+            val delta = mouse.coord - mouse.old_coordinates
+            val g_mouse = g_mice[mouse]!!
+            g_mouse.move(delta.x * config[Srv.step].toDouble(),
+                    delta.y * config[Srv.step].toDouble())
         }
     }
 
