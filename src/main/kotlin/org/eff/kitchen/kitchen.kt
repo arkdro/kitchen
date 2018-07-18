@@ -23,6 +23,7 @@ private val config = build_config()
 
 class Kitchen : Game() {
     private lateinit var g_field: FObject
+    private lateinit var g_mice: Map<Food_mouse, FObject>
 
     init {
         logger.info("kitchen started")
@@ -55,8 +56,8 @@ class Kitchen : Game() {
         g_field = ShapeObject(ColorResource.CYAN,
                 FRectangle(config[Srv.width], config[Srv.height]))
         addObject(g_field)
-        val g_mice = create_mouse_objects(place.food_mice)
-        g_mice.forEach { addObject(it) }
+        g_mice = create_mouse_objects(place.food_mice)
+        g_mice.forEach { _, mouse -> addObject(mouse) }
     }
 
     override fun onExit() {
@@ -84,12 +85,11 @@ class Kitchen : Game() {
 
 }
 
-private fun create_mouse_objects(mice: List<Food_mouse>): List<FObject> {
-    val coordinates = build_food_mouse_coordinates(mice)
-    val result = mutableListOf<FObject>()
-    for ((coord, _) in coordinates) {
-        val g_mouse = create_one_mouse_object(coord)
-        result.add(g_mouse)
+private fun create_mouse_objects(mice: List<Food_mouse>): Map<Food_mouse, FObject> {
+    val result = mutableMapOf<Food_mouse, FObject>()
+    for (mouse in mice) {
+        val g_mouse = create_one_mouse_object(mouse.coord)
+        result[mouse] = g_mouse
     }
     return result
 }
