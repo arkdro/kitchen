@@ -87,6 +87,16 @@ class Kitchen : Game() {
 
 }
 
+private fun create_one_field_object(field: Field, x: Int, y: Int): FObject {
+    val color = get_field_point_color(field, x, y)
+    val x_pos = x * config[Srv.step]
+    val y_pos = y * config[Srv.step]
+    val g_field = ShapeObject(color,
+            FRectangle(config[Srv.step], config[Srv.step]),
+            x_pos.toDouble(), y_pos.toDouble())
+    return g_field
+}
+
 private fun get_field_point_color(field: Field, x: Int, y: Int): ColorResource {
     if (field.get_point(Coord(x, y)) == Food.FULL) {
         logger.debug { "get color, light, $x, $y" }
