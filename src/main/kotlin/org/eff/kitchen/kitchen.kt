@@ -56,6 +56,7 @@ class Kitchen : Game() {
             override fun keyReleased(e: KeyEvent) = Unit
         })
         g_field = create_field_objects(place)
+        add_field_object_to_graphics()
         g_mice = create_mouse_objects(place.food_mice)
         g_mice.forEach { _, mouse -> addObject(mouse) }
     }
