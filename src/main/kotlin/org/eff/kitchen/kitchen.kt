@@ -85,6 +85,14 @@ class Kitchen : Game() {
         }
     }
 
+    private fun add_field_object_to_graphics() {
+        for (y in 0 until config[Srv.vertical_cells]) {
+            for (x in 0 until config[Srv.horizontal_cells]) {
+                val obj = g_field[y][x]
+                addObject(obj)
+            }
+        }
+    }
 }
 
 private fun create_field_objects(place: Place): ArrayList<ArrayList<FObject>> {
