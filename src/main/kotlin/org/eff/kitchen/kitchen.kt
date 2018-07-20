@@ -6,6 +6,8 @@ import org.eff.kitchen.config.Srv
 import org.eff.kitchen.config.build_config
 import org.eff.kitchen.coordinates.Coord
 import org.eff.kitchen.direction.Direction
+import org.eff.kitchen.field.Field
+import org.eff.kitchen.food.Food
 import org.eff.kitchen.mouse.Food_mouse
 import org.eff.kitchen.place.Place
 import org.eff.kitchen.place.build_food_mouse_coordinates
@@ -83,6 +85,16 @@ class Kitchen : Game() {
         }
     }
 
+}
+
+private fun get_field_point_color(field: Field, x: Int, y: Int): ColorResource {
+    if (field.get_point(Coord(x, y)) == Food.FULL) {
+        logger.debug { "get color, light, $x, $y" }
+        return ColorResource.LIGHT_GRAY
+    } else {
+        logger.debug { "get color, dark, $x, $y" }
+        return ColorResource.DARK_GRAY
+    }
 }
 
 private fun create_mouse_objects(mice: List<Food_mouse>): Map<Food_mouse, FObject> {
