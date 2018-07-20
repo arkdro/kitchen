@@ -24,7 +24,7 @@ private val logger = KotlinLogging.logger {}
 private val config = build_config()
 
 class Kitchen : Game() {
-    private lateinit var g_field: FObject
+    private lateinit var g_field: ArrayList<ArrayList<FObject>>
     private lateinit var g_mice: Map<Food_mouse, FObject>
 
     init {
@@ -55,9 +55,7 @@ class Kitchen : Game() {
 
             override fun keyReleased(e: KeyEvent) = Unit
         })
-        g_field = ShapeObject(ColorResource.CYAN,
-                FRectangle(config[Srv.width], config[Srv.height]))
-        addObject(g_field)
+        g_field = create_field_objects(place)
         g_mice = create_mouse_objects(place.food_mice)
         g_mice.forEach { _, mouse -> addObject(mouse) }
     }
