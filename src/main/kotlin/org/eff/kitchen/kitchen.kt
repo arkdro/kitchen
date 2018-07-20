@@ -87,6 +87,23 @@ class Kitchen : Game() {
 
 }
 
+private fun create_field_objects(place: Place): ArrayList<ArrayList<FObject>> {
+    val field = mutableListOf<ArrayList<FObject>>()
+    for (y in 0 until config[Srv.vertical_cells]) {
+        val row = mutableListOf<FObject>()
+        for (x in 0 until config[Srv.horizontal_cells]) {
+            val obj = create_one_field_object(
+                    place.field,
+                    x, y)
+            row.add(obj)
+        }
+        val row2 = ArrayList(row)
+        field.add(row2)
+    }
+    val field2 = ArrayList(field)
+    return field2
+}
+
 private fun create_one_field_object(field: Field, x: Int, y: Int): FObject {
     val color = get_field_point_color(field, x, y)
     val x_pos = x * config[Srv.step]
