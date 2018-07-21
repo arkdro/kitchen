@@ -26,6 +26,7 @@ private val config = build_config()
 class Kitchen : Game() {
     private lateinit var g_field: ArrayList<ArrayList<FObject>>
     private lateinit var g_mice: Map<Food_mouse, FObject>
+    private lateinit var g_cleaner: FObject
 
     init {
         logger.info("kitchen started")
@@ -57,6 +58,8 @@ class Kitchen : Game() {
         })
         g_field = create_field_objects(place)
         add_field_object_to_graphics()
+        g_cleaner = create_cleaner_object(place.cleaner)
+        addObject(g_cleaner)
         g_mice = create_mouse_objects(place.food_mice)
         g_mice.forEach { _, mouse -> addObject(mouse) }
     }
@@ -92,6 +95,18 @@ class Kitchen : Game() {
             }
         }
     }
+}
+
+private fun create_cleaner_object(cleaner: Cleaner): FObject {
+    val g_step = config[Srv.step]
+    val g_width = config[Srv.cell_size] * config[Srv.scale]
+    val g_height = config[Srv.cell_size] * config[Srv.scale]
+    val coord = cleaner.coord
+    val obj = ShapeObject(ColorResource.GREEN,
+            FRectangle(g_width, g_height),
+            coord.x.toDouble() * g_step,
+            coord.y.toDouble() * g_step)
+    return obj
 }
 
 private fun create_field_objects(place: Place): ArrayList<ArrayList<FObject>> {
