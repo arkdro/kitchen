@@ -5,15 +5,15 @@ import org.eff.kitchen.direction.Direction
 import org.eff.kitchen.direction.to_deltas
 import org.eff.kitchen.field.Field
 import org.eff.kitchen.food.Food
-import org.eff.kitchen.move.Move
+import org.eff.kitchen.mouse.Food_mouse
 
-class Cleaner : Move {
+class Cleaner {
     var coord = Coord(0, 0)
     var direction = Direction.N
     var speed = 0
     var marked_line = mutableSetOf<Coord>()
 
-    override fun move(field: Field) {
+    fun move(field: Field, food_mice: List<Food_mouse>) {
         if (speed == 0) {
             return
         }
