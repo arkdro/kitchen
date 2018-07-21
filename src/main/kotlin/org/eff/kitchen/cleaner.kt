@@ -20,7 +20,7 @@ class Cleaner {
         if (speed == 0) {
             return
         }
-        when (next_step_result(coord, direction, field)) {
+        when (next_step_result(coord, direction, field, food_mice)) {
             Next_step_result.FOOD -> go_over_food(field)
             Next_step_result.GROUND -> go_over_ground(field)
             Next_step_result.MOUSE -> run_into_mouse(field)
@@ -104,8 +104,19 @@ class Cleaner {
     }
 }
 
-private fun next_step_result(coord: Coord, direction: Direction, field: Field): Next_step_result {
-    return Next_step_result.FOOD
+private fun next_step_result(coord: Coord, direction: Direction, field: Field, food_mice: List<Food_mouse>): Next_step_result {
+    val next_coordinates = coord + direction.to_deltas()
+    if (hit_wall(next_coordinates, field)) {
+        return Next_step_result.WALL
+    } else if (hit_mouse(next_coordinates, food_mice)) {
+        return Next_step_result.MOUSE
+    }
+    val next_point = field.get_point(next_coordinates)
+    return when (next_point) {
+        Food.FULL -> Next_step_result.FOOD
+        Food.STEP -> Next_step_result.STEP
+        Food.EMPTY -> Next_step_result.GROUND
+    }
 }
 
 private fun hit_wall(coordinates: Coord, field: Field): Boolean {
