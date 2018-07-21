@@ -19,6 +19,9 @@ abstract class Mouse : Move {
     lateinit var old_coordinates: Coord // lateinit or real init somehow?
 
     fun diagonal_move(field: Field) {
+        if (speed == 0) {
+            return
+        }
         val old_direction = direction
         old_coordinates = coord
         if (can_walk_farther(coord, direction, allowed_food, field)) {
