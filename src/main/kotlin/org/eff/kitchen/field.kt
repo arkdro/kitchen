@@ -23,6 +23,12 @@ class Field(val width: Int, val height: Int, val h_gap: Int, val v_gap: Int) {
         }
         return sb.toString()
     }
+
+    fun is_inside(c: Coord): Boolean {
+        return c.x >= 0 && c.x < width
+                && c.y >= 0 && c.y < height
+    }
+
 }
 
 fun fill_stock(width: Int, height: Int, h_gap: Int, v_gap: Int): Array<Array<Food>> {
