@@ -81,7 +81,14 @@ class Kitchen : Game() {
             key_pressed = KeyEvent.VK_UNDO
         }
         place.one_iteration()
+        redraw_cleaner()
         redraw_mice()
+    }
+
+    private fun redraw_cleaner() {
+        val delta = place.cleaner.coord - place.cleaner.old_coord
+        g_cleaner.move(delta.x * config[Srv.step].toDouble(),
+                delta.y * config[Srv.step].toDouble())
     }
 
     private fun redraw_mice() {
