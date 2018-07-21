@@ -40,8 +40,8 @@ class Kitchen : Game() {
                 config[Srv.vertical_cells],
                 config[Srv.horizontal_gap],
                 config[Srv.vertical_gap])
-        val window_width = config[Srv.width]
-        val window_height = config[Srv.height]
+        val window_width = config[Srv.width] + config[Srv.add_window_horizontal]
+        val window_height = config[Srv.height] + config[Srv.add_window_vertical]
         setSize(window_width, window_height)
         autoGC = false
         isResizable = true

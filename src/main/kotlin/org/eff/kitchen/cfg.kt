@@ -28,6 +28,7 @@ class Srv {
         val step by lazy { config ->
             config[cell_size] * config[scale]
         }
-
+        val add_window_horizontal by optional<Int>(0, "window.add.horizontal")
+        val add_window_vertical by optional<Int>(0, "window.add.vertical")
     }
 }
