@@ -37,6 +37,7 @@ abstract class Mouse : Move {
                     coord = calc_new_coordinates(coord, backward_direction)
                     direction = backward_direction
                 } else {
+                    logger.debug { "freeze food mouse, coord: $coord, dir: $direction, old dir: $old_direction" }
                     freeze()
                 }
             }
