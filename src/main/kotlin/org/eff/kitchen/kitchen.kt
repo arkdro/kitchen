@@ -72,7 +72,13 @@ class Kitchen : Game() {
         super.onRefresh()
         if (is_allowed_key(key_pressed)) {
             logger.debug { "pressed, onRefresh: $key_pressed" }
-            place.set_new_direction(key_event_to_direction(key_pressed))
+            val dir = key_event_to_direction(key_pressed)
+            if (is_key_for_cleaner(key_pressed)) {
+                place.set_cleaner_new_direction(dir)
+            } else {
+                place.set_new_direction(dir)
+            }
+            key_pressed = KeyEvent.VK_UNDO
         }
         place.one_iteration()
         redraw_mice()
@@ -182,6 +188,17 @@ private val allowed_keys =
                 KeyEvent.VK_NUMPAD7,
                 KeyEvent.VK_NUMPAD9
         )
+
+private fun is_key_for_cleaner(key: Int): Boolean {
+    return keys_for_cleaner.contains(key)
+}
+
+private val keys_for_cleaner =
+        setOf(
+                KeyEvent.VK_UP,
+                KeyEvent.VK_DOWN,
+                KeyEvent.VK_LEFT,
+                KeyEvent.VK_RIGHT)
 
 // for debug only
 private fun key_event_to_direction(d: Int): Direction =
