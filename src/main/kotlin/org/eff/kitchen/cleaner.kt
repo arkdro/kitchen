@@ -96,6 +96,12 @@ class Cleaner {
     }
 
     fun to_char(): Char = '@'
+
+    fun start_moving(d: Direction) {
+        direction = d
+        speed = 1
+        logger.debug("start moving cleaner, d: $direction, spd: $speed")
+    }
 }
 
 private fun next_step_result(coord: Coord, direction: Direction, field: Field): Next_step_result {
