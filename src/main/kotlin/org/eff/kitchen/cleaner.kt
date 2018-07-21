@@ -12,11 +12,13 @@ private val logger = KotlinLogging.logger {}
 
 class Cleaner {
     var coord = Coord(0, 0)
+    var old_coord = coord
     var direction = Direction.N
     var speed = 0
     var marked_line = mutableSetOf<Coord>()
 
     fun move(field: Field, food_mice: List<Food_mouse>) {
+        old_coord = coord
         if (speed == 0) {
             return
         }
