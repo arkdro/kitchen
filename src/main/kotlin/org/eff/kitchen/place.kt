@@ -32,6 +32,10 @@ class Place(val width: Int, val height: Int, val h_gap: Int, val v_gap: Int) {
         mouse.direction = d
     }
 
+    fun set_cleaner_new_direction(d: Direction) {
+        cleaner.start_moving(d)
+    }
+
     private fun display() {
         val food_mouse_coordinates = build_food_mouse_coordinates(food_mice)
         for (y in 0 until height) {
