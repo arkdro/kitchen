@@ -1,6 +1,7 @@
 package org.eff.kitchen.place
 
 
+import org.eff.kitchen.Cleaner
 import org.eff.kitchen.coordinates.Coord
 import org.eff.kitchen.direction.Direction // for debug only
 import org.eff.kitchen.field.Field
@@ -9,7 +10,7 @@ import org.eff.kitchen.mouse.Mouse
 
 class Place(val width: Int, val height: Int, val h_gap: Int, val v_gap: Int) {
     var field = Field(width, height, h_gap, v_gap)
-    //val catcher = Catcher()
+    val cleaner = Cleaner()
     val food_mice = create_food_mice(width, height, h_gap, v_gap)
     //val ground_mice = MutableList<Ground_mouse>(0, {})
     fun run() {
@@ -20,6 +21,7 @@ class Place(val width: Int, val height: Int, val h_gap: Int, val v_gap: Int) {
 
     fun one_iteration() {
         display()
+        update_cleaner()
         update_mice()
         Thread.sleep(500)
     }
@@ -38,6 +40,8 @@ class Place(val width: Int, val height: Int, val h_gap: Int, val v_gap: Int) {
                 if (food_mouse_coordinates.contains(Coord(x, y))) {
                     val mouse = food_mouse_coordinates[Coord(x, y)]
                     display_point = mouse!!.to_char()
+                } else if (cleaner.coord == Coord(x, y)) {
+                    display_point = cleaner.to_char()
                 } else {
                     display_point = field.get_point(Coord(x, y)).to_char()
                 }
@@ -51,6 +55,10 @@ class Place(val width: Int, val height: Int, val h_gap: Int, val v_gap: Int) {
 
     private fun update_mice() {
         food_mice.forEach { it.move(field) }
+    }
+
+    private fun update_cleaner() {
+        cleaner.move(field)
     }
 }
 
