@@ -62,7 +62,7 @@ class Place(val width: Int, val height: Int, val h_gap: Int, val v_gap: Int) {
     }
 
     private fun update_cleaner() {
-        cleaner.move(field)
+        cleaner.move(field, food_mice)
     }
 }
 
