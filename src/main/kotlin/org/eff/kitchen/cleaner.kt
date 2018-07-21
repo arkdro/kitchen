@@ -1,11 +1,14 @@
 package org.eff.kitchen
 
+import mu.KotlinLogging
 import org.eff.kitchen.coordinates.Coord
 import org.eff.kitchen.direction.Direction
 import org.eff.kitchen.direction.to_deltas
 import org.eff.kitchen.field.Field
 import org.eff.kitchen.food.Food
 import org.eff.kitchen.mouse.Food_mouse
+
+private val logger = KotlinLogging.logger {}
 
 class Cleaner {
     var coord = Coord(0, 0)
