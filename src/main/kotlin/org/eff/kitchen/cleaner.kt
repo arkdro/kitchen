@@ -107,3 +107,7 @@ class Cleaner {
 private fun next_step_result(coord: Coord, direction: Direction, field: Field): Next_step_result {
     return Next_step_result.FOOD
 }
+
+private fun hit_mouse(coordinates: Coord, food_mice: List<Food_mouse>): Boolean {
+    return food_mice.any { coordinates == it.coord }
+}
