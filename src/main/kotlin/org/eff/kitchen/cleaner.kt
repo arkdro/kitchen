@@ -45,6 +45,7 @@ class Cleaner {
     }
 
     private fun go_over_ground(field: Field) {
+        put_step_at_current_food(field)
         if (field.get_point(coord) == Food.STEP) {
             move_farther()
             freeze()
