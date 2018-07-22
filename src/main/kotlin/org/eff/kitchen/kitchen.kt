@@ -27,6 +27,7 @@ class Kitchen : Game() {
     private lateinit var g_field: ArrayList<ArrayList<FObject>>
     private lateinit var g_mice: Map<Food_mouse, FObject>
     private lateinit var g_cleaner: FObject
+    private lateinit var g_cleaner_steps: MutableMap<Coord, FObject>
 
     init {
         logger.info("kitchen started")
@@ -60,6 +61,7 @@ class Kitchen : Game() {
         add_field_object_to_graphics()
         g_cleaner = create_cleaner_object(place.cleaner)
         addObject(g_cleaner)
+        g_cleaner_steps = create_cleaner_step_objects()
         g_mice = create_mouse_objects(place.food_mice)
         g_mice.forEach { _, mouse -> addObject(mouse) }
     }
@@ -89,6 +91,22 @@ class Kitchen : Game() {
         val delta = place.cleaner.coord - place.cleaner.old_coord
         g_cleaner.move(delta.x * config[Srv.step].toDouble(),
                 delta.y * config[Srv.step].toDouble())
+    }
+
+    private fun create_one_cleaner_step_object(coord: Coord): FObject {
+        val g_step = config[Srv.step]
+        val g_width = config[Srv.cell_size] * config[Srv.scale] / 4
+        val g_height = config[Srv.cell_size] * config[Srv.scale] / 4
+        val offset = config[Srv.cell_size] * config[Srv.scale] / 4 * 1.5
+        val obj = ShapeObject(ColorResource.WHITE,
+                FRectangle(g_width, g_height),
+                coord.x.toDouble() * g_step + offset,
+                coord.y.toDouble() * g_step + offset)
+        return obj
+    }
+
+    private fun create_cleaner_step_objects(): MutableMap<Coord, FObject> {
+        return mutableMapOf<Coord, FObject>()
     }
 
     private fun redraw_mice() {
