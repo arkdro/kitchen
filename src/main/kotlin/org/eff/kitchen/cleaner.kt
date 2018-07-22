@@ -40,6 +40,7 @@ class Cleaner {
         val current_point = field.get_point(coord)
         if (current_point == Food.FULL) {
             field.set_point(coord, Food.STEP)
+            marked_line.add(coord)
         }
     }
 
