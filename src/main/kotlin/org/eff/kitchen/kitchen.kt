@@ -83,14 +83,38 @@ class Kitchen : Game() {
             key_pressed = KeyEvent.VK_UNDO
         }
         place.one_iteration()
-        redraw_cleaner()
+        redraw_cleaner_and_steps()
         redraw_mice()
+    }
+
+    private fun redraw_cleaner_and_steps() {
+        redraw_cleaner()
+        update_cleaner_step_objects()
     }
 
     private fun redraw_cleaner() {
         val delta = place.cleaner.coord - place.cleaner.old_coord
         g_cleaner.move(delta.x * config[Srv.step].toDouble(),
                 delta.y * config[Srv.step].toDouble())
+    }
+
+    private fun update_cleaner_step_objects() {
+        val steps = place.cleaner.marked_line.toSet()
+        for (step in steps) {
+            if (!g_cleaner_steps.containsKey(step)) {
+                val obj = create_one_cleaner_step_object(step)
+                g_cleaner_steps[step] = obj
+                addObject(obj)
+            }
+        }
+        val deleted = mutableSetOf<Coord>()
+        for ((g_step, obj) in g_cleaner_steps) {
+            if (!steps.contains(g_step)) {
+                removeObject(obj)
+                deleted.add(g_step)
+            }
+        }
+        deleted.forEach { g_cleaner_steps.remove(it) }
     }
 
     private fun create_one_cleaner_step_object(coord: Coord): FObject {
