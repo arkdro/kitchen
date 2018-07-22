@@ -37,7 +37,10 @@ class Cleaner {
     }
 
     private fun put_step_at_current_food(field: Field) {
-        field.set_point(coord, Food.STEP)
+        val current_point = field.get_point(coord)
+        if (current_point == Food.FULL) {
+            field.set_point(coord, Food.STEP)
+        }
     }
 
     private fun move_farther() {
