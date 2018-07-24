@@ -58,7 +58,7 @@ class Place(val width: Int, val height: Int, val h_gap: Int, val v_gap: Int) {
     }
 
     private fun update_mice() {
-        food_mice.forEach { it.move(field) }
+        food_mice.forEach { it.move(field, cleaner) }
     }
 
     private fun update_cleaner() {

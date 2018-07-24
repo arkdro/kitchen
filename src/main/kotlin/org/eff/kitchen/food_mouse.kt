@@ -1,5 +1,6 @@
 package org.eff.kitchen.mouse
 
+import org.eff.kitchen.Cleaner
 import org.eff.kitchen.coordinates.Coord
 import org.eff.kitchen.direction.Diagonal_direction
 import org.eff.kitchen.direction.Direction
@@ -12,8 +13,8 @@ class Food_mouse(initial_corner: Coord, finish_corner: Coord) : Mouse() {
     override var speed = 1
     override val allowed_food = Food.FULL
     override fun to_char(): Char = 'O'
-    override fun move(field: Field) {
-        diagonal_move(field)
+    override fun move(field: Field, cleaner: Cleaner) {
+        diagonal_move(field, cleaner)
     }
 }
 
