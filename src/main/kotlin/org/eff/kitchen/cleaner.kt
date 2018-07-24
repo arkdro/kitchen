@@ -109,6 +109,10 @@ class Cleaner {
         speed = 1
         logger.debug("start moving cleaner, d: $direction, spd: $speed")
     }
+
+    fun was_bitten(field: Field) {
+        run_into_mouse(field)
+    }
 }
 
 private fun next_step_result(coord: Coord, direction: Direction, field: Field, food_mice: List<Food_mouse>): Next_step_result {
