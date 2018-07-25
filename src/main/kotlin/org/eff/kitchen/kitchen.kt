@@ -24,7 +24,7 @@ private val logger = KotlinLogging.logger {}
 private val config = build_config()
 
 class Kitchen : Game() {
-    private lateinit var g_field: ArrayList<ArrayList<FObject>>
+    private lateinit var g_field: MutableMap<Coord, FObject>
     private lateinit var g_mice: Map<Food_mouse, FObject>
     private lateinit var g_cleaner: FObject
     private lateinit var g_cleaner_steps: MutableMap<Coord, FObject>
@@ -143,11 +143,8 @@ class Kitchen : Game() {
     }
 
     private fun add_field_object_to_graphics() {
-        for (y in 0 until config[Srv.vertical_cells]) {
-            for (x in 0 until config[Srv.horizontal_cells]) {
-                val obj = g_field[y][x]
-                addObject(obj)
-            }
+        for ((_, obj) in g_field) {
+            addObject(obj)
         }
     }
 }
@@ -164,21 +161,19 @@ private fun create_cleaner_object(cleaner: Cleaner): FObject {
     return obj
 }
 
-private fun create_field_objects(place: Place): ArrayList<ArrayList<FObject>> {
-    val field = mutableListOf<ArrayList<FObject>>()
+private fun create_field_objects(place: Place): MutableMap<Coord, FObject> {
+    val field = mutableMapOf<Coord, FObject>()
     for (y in 0 until config[Srv.vertical_cells]) {
         val row = mutableListOf<FObject>()
         for (x in 0 until config[Srv.horizontal_cells]) {
             val obj = create_one_field_object(
                     place.field,
                     x, y)
-            row.add(obj)
+            val coord = Coord(x, y)
+            field[coord] = obj
         }
-        val row2 = ArrayList(row)
-        field.add(row2)
     }
-    val field2 = ArrayList(field)
-    return field2
+    return field
 }
 
 private fun create_one_field_object(field: Field, x: Int, y: Int): FObject {
