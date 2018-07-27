@@ -1,16 +1,13 @@
 package org.eff.kitchen
 
-import com.uchuhimo.konf.Config
 import mu.KotlinLogging
 import org.eff.kitchen.config.Srv
 import org.eff.kitchen.config.build_config
 import org.eff.kitchen.coordinates.Coord
 import org.eff.kitchen.direction.Direction
-import org.eff.kitchen.field.Field
-import org.eff.kitchen.food.Food
+import org.eff.kitchen.g_field.G_field
 import org.eff.kitchen.mouse.Food_mouse
 import org.eff.kitchen.place.Place
-import org.eff.kitchen.place.build_food_mouse_coordinates
 import org.frice.Game
 import org.frice.launch
 import org.frice.obj.FObject
@@ -24,7 +21,7 @@ private val logger = KotlinLogging.logger {}
 private val config = build_config()
 
 class Kitchen : Game() {
-    private lateinit var g_field: MutableMap<Coord, FObject>
+    private lateinit var g_field: G_field
     private lateinit var g_mice: Map<Food_mouse, FObject>
     private lateinit var g_cleaner: FObject
     private lateinit var g_cleaner_steps: MutableMap<Coord, FObject>
@@ -57,7 +54,7 @@ class Kitchen : Game() {
 
             override fun keyReleased(e: KeyEvent) = Unit
         })
-        g_field = create_field_objects(place)
+        g_field = G_field(config, place)
         add_field_object_to_graphics()
         g_cleaner = create_cleaner_object(place.cleaner)
         addObject(g_cleaner)
@@ -83,8 +80,23 @@ class Kitchen : Game() {
             key_pressed = KeyEvent.VK_UNDO
         }
         place.one_iteration()
+        redraw_field_if_needed()
         redraw_cleaner_and_steps()
         redraw_mice()
+    }
+
+    private fun redraw_field_if_needed() {
+        if (place.cleaner.just_finished_line) {
+            update_cleaned_field()
+        }
+    }
+
+    private fun update_cleaned_field() {
+        for (coord in place.cleaner.cleaned_points) {
+            // remove food objects, so only ground objects
+            // are shown at these coordinates
+            g_field.food[coord]?.also { removeObject(it) }
+        }
     }
 
     private fun redraw_cleaner_and_steps() {
@@ -143,7 +155,12 @@ class Kitchen : Game() {
     }
 
     private fun add_field_object_to_graphics() {
-        for ((_, obj) in g_field) {
+        // lower layer is ground
+        for ((_, obj) in g_field.ground) {
+            addObject(obj)
+        }
+        // upper layer is food
+        for ((_, obj) in g_field.food) {
             addObject(obj)
         }
     }
@@ -159,41 +176,6 @@ private fun create_cleaner_object(cleaner: Cleaner): FObject {
             coord.x.toDouble() * g_step,
             coord.y.toDouble() * g_step)
     return obj
-}
-
-private fun create_field_objects(place: Place): MutableMap<Coord, FObject> {
-    val field = mutableMapOf<Coord, FObject>()
-    for (y in 0 until config[Srv.vertical_cells]) {
-        val row = mutableListOf<FObject>()
-        for (x in 0 until config[Srv.horizontal_cells]) {
-            val obj = create_one_field_object(
-                    place.field,
-                    x, y)
-            val coord = Coord(x, y)
-            field[coord] = obj
-        }
-    }
-    return field
-}
-
-private fun create_one_field_object(field: Field, x: Int, y: Int): FObject {
-    val color = get_field_point_color(field, x, y)
-    val x_pos = x * config[Srv.step]
-    val y_pos = y * config[Srv.step]
-    val g_field = ShapeObject(color,
-            FRectangle(config[Srv.step], config[Srv.step]),
-            x_pos.toDouble(), y_pos.toDouble())
-    return g_field
-}
-
-private fun get_field_point_color(field: Field, x: Int, y: Int): ColorResource {
-    if (field.get_point(Coord(x, y)) == Food.FULL) {
-        logger.debug { "get color, light, $x, $y" }
-        return ColorResource.LIGHT_GRAY
-    } else {
-        logger.debug { "get color, dark, $x, $y" }
-        return ColorResource.DARK_GRAY
-    }
 }
 
 private fun create_mouse_objects(mice: List<Food_mouse>): Map<Food_mouse, FObject> {
