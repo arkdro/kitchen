@@ -16,9 +16,13 @@ class Cleaner {
     var direction = Direction.N
     var speed = 0
     var marked_line = mutableSetOf<Coord>()
+    var just_finished_line = false
+    var cleaned_points = mutableSetOf<Coord>()
 
     fun move(field: Field, food_mice: List<Food_mouse>) {
         old_coord = coord
+        just_finished_line = false
+        cleaned_points = mutableSetOf()
         if (speed == 0) {
             return
         }
@@ -99,7 +103,13 @@ class Cleaner {
 
     private fun finish_marked_line(field: Field) {
         // not implemented
-        clean_marked_line(field)
+        for (point in marked_line) {
+            field.set_point(point, Food.EMPTY)
+        }
+        cleaned_points = marked_line.toMutableSet()
+        marked_line = mutableSetOf()
+        logger.debug("finish line, points: $cleaned_points, line: $marked_line")
+        just_finished_line = true
     }
 
     fun to_char(): Char = '@'
