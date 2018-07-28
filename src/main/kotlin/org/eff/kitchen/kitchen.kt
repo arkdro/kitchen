@@ -80,6 +80,10 @@ class Kitchen : Game() {
                 place.set_new_direction(dir)
             }
             key_pressed = KeyEvent.VK_UNDO
+        } else {
+            if (key_pressed != KeyEvent.VK_UNDO) {
+                place.cleaner.freeze()
+            }
         }
         place.one_iteration()
         redraw_field_if_needed()
