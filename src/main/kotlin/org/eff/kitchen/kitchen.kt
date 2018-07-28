@@ -96,7 +96,8 @@ class Kitchen : Game() {
         return Place(config[Srv.horizontal_cells],
                 config[Srv.vertical_cells],
                 config[Srv.horizontal_gap],
-                config[Srv.vertical_gap])
+                config[Srv.vertical_gap],
+                level)
     }
 
     private fun redraw_field_if_needed() {

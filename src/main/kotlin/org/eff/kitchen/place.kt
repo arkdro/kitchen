@@ -8,10 +8,10 @@ import org.eff.kitchen.field.Field
 import org.eff.kitchen.mouse.Food_mouse
 import org.eff.kitchen.mouse.Mouse
 
-class Place(val width: Int, val height: Int, val h_gap: Int, val v_gap: Int) {
+class Place(val width: Int, val height: Int, val h_gap: Int, val v_gap: Int, level: Int) {
     var field = Field(width, height, h_gap, v_gap)
     val cleaner = Cleaner()
-    val food_mice = create_food_mice(width, height, h_gap, v_gap)
+    val food_mice = create_food_mice(width, height, h_gap, v_gap, level)
     //val ground_mice = MutableList<Ground_mouse>(0, {})
     fun run() {
         while (true) {
@@ -66,8 +66,8 @@ class Place(val width: Int, val height: Int, val h_gap: Int, val v_gap: Int) {
     }
 }
 
-fun create_food_mice(width: Int, height: Int, h_gap: Int, v_gap: Int): MutableList<Food_mouse> {
-    val num = 1
+fun create_food_mice(width: Int, height: Int, h_gap: Int, v_gap: Int, level: Int): MutableList<Food_mouse> {
+    val num = level
     val list = mutableListOf<Food_mouse>()
     for (x in 1..num) {
         val initial_corner = Coord(h_gap, v_gap)
