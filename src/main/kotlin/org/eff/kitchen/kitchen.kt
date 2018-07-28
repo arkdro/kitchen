@@ -107,6 +107,20 @@ class Kitchen : Game() {
         }
     }
 
+    private fun most_of_level_cleaned(): Boolean {
+        var total_food = (place.width - place.h_gap * 2) * (place.height - place.v_gap * 2)
+        var not_cleaned = 0
+        for (y in 0 until place.height) {
+            for (x in 0 until place.width) {
+                val point = place.field.get_point(Coord(x, y))
+                if (point == Food.FULL) {
+                    not_cleaned++
+                }
+            }
+        }
+        return not_cleaned < total_food * 0.33
+    }
+
     private fun update_cleaned_field(points_to_ground: Set<Coord>) {
         // remove food objects, so only ground objects
         // are shown at these coordinates
