@@ -203,6 +203,16 @@ class Kitchen : Game() {
             addObject(obj)
         }
     }
+
+    private fun remove_field_object_from_graphics() {
+        for ((_, obj) in g_field.ground) {
+            removeObject(obj)
+        }
+        for ((_, obj) in g_field.food) {
+            removeObject(obj)
+        }
+    }
+
 }
 
 private fun create_cleaner_object(cleaner: Cleaner): FObject {
