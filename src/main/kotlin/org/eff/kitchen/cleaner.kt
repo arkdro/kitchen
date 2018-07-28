@@ -86,10 +86,6 @@ class Cleaner {
         freeze()
     }
 
-    private fun freeze() {
-        speed = 0
-    }
-
     private fun set_initial_coordinates() {
         coord = Coord(0, 0)
     }
@@ -110,6 +106,10 @@ class Cleaner {
         marked_line = mutableSetOf()
         logger.debug("finish line, points: $cleaned_points, line: $marked_line")
         just_finished_line = true
+    }
+
+    fun freeze() {
+        speed = 0
     }
 
     fun to_char(): Char = '@'
