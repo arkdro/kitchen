@@ -213,6 +213,15 @@ class Kitchen : Game() {
         }
     }
 
+    private fun add_all_objects(place: Place) {
+        g_field = G_field(config, place)
+        add_field_object_to_graphics()
+        g_cleaner = create_cleaner_object(place.cleaner)
+        addObject(g_cleaner)
+        g_cleaner_steps = create_cleaner_step_objects()
+        g_mice = create_mouse_objects(place.food_mice)
+        g_mice.forEach { _, mouse -> addObject(mouse) }
+    }
 
     private fun remove_all_objects() {
         remove_field_object_from_graphics()
