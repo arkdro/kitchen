@@ -39,6 +39,7 @@ class Kitchen : Game() {
     private var key_pressed = KeyEvent.VK_SPACE // stop
     override fun onInit() {
         super.onInit()
+        level = 1 // necessary, otherwise it becomes 0
         place = build_place()
         val window_width = config[Srv.width] + config[Srv.add_window_horizontal]
         val window_height = config[Srv.height] + config[Srv.add_window_vertical]
