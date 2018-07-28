@@ -40,10 +40,6 @@ class Kitchen : Game() {
     override fun onInit() {
         super.onInit()
         place = build_place()
-        place = Place(config[Srv.horizontal_cells],
-                config[Srv.vertical_cells],
-                config[Srv.horizontal_gap],
-                config[Srv.vertical_gap])
         val window_width = config[Srv.width] + config[Srv.add_window_horizontal]
         val window_height = config[Srv.height] + config[Srv.add_window_vertical]
         setSize(window_width, window_height)
