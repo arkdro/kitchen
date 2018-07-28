@@ -37,6 +37,7 @@ class Kitchen : Game() {
     private var key_pressed = KeyEvent.VK_SPACE // stop
     override fun onInit() {
         super.onInit()
+        place = build_place()
         place = Place(config[Srv.horizontal_cells],
                 config[Srv.vertical_cells],
                 config[Srv.horizontal_gap],
@@ -89,6 +90,13 @@ class Kitchen : Game() {
         redraw_field_if_needed()
         redraw_cleaner_and_steps()
         redraw_mice()
+    }
+
+    private fun build_place(): Place {
+        return Place(config[Srv.horizontal_cells],
+                config[Srv.vertical_cells],
+                config[Srv.horizontal_gap],
+                config[Srv.vertical_gap])
     }
 
     private fun redraw_field_if_needed() {
