@@ -213,6 +213,12 @@ class Kitchen : Game() {
         }
     }
 
+
+    private fun remove_all_objects() {
+        remove_field_object_from_graphics()
+        removeObject(g_cleaner)
+        g_mice.forEach { _, mouse -> removeObject(mouse) }
+    }
 }
 
 private fun create_cleaner_object(cleaner: Cleaner): FObject {
