@@ -26,18 +26,18 @@ abstract class Mouse : Move {
         val old_direction = direction
         old_coordinates = coord
         if (can_walk_farther(coord, direction, allowed_food, field, cleaner)) {
-            bite_cleaner_if_possible(coord, direction, field, cleaner)
+            bite_cleaner_if_possible(coord, direction, allowed_food, field, cleaner)
             coord = calc_new_coordinates(coord, direction)
         } else {
             val new_direction = get_new_direction(coord, direction, allowed_food, field)
             if (can_walk_farther(coord, new_direction, allowed_food, field, cleaner)) {
-                bite_cleaner_if_possible(coord, new_direction, field, cleaner)
+                bite_cleaner_if_possible(coord, new_direction, allowed_food, field, cleaner)
                 coord = calc_new_coordinates(coord, new_direction)
                 direction = new_direction
             } else {
                 val backward_direction = flip_both_directions(direction)
                 if (can_walk_farther(coord, backward_direction, allowed_food, field, cleaner)) {
-                    bite_cleaner_if_possible(coord, backward_direction, field, cleaner)
+                    bite_cleaner_if_possible(coord, backward_direction, allowed_food, field, cleaner)
                     coord = calc_new_coordinates(coord, backward_direction)
                     direction = backward_direction
                 } else {
@@ -66,13 +66,22 @@ abstract class Mouse : Move {
 
 }
 
-private fun is_cleaner_or_steps(coord: Coord, direction: Direction, cleaner: Cleaner): Boolean {
+private fun is_cleaner_or_steps(coord: Coord, direction: Direction, allowed_food: Food, field: Field, cleaner: Cleaner): Boolean {
     val new_coord = calc_new_coordinates(coord, direction)
-    return new_coord == cleaner.coord || cleaner.marked_line.contains(new_coord)
+    if (disallowed_food(new_coord, field, allowed_food)) {
+        return false
+    } else {
+        return new_coord == cleaner.coord || cleaner.marked_line.contains(new_coord)
+    }
 }
 
-private fun bite_cleaner_if_possible(coord: Coord, direction: Direction, field: Field, cleaner: Cleaner) {
-    if (is_cleaner_or_steps(coord, direction, cleaner)) {
+private fun disallowed_food(coord: Coord, field: Field, allowed_food: Food): Boolean {
+    val point = field.get_point(coord)
+    return point != allowed_food
+}
+
+private fun bite_cleaner_if_possible(coord: Coord, direction: Direction, allowed_food: Food, field: Field, cleaner: Cleaner) {
+    if (is_cleaner_or_steps(coord, direction, allowed_food, field, cleaner)) {
         logger.debug("bitten, ${cleaner.coord}, ${cleaner.marked_line}, ${coord + direction.to_deltas()}")
         cleaner.was_bitten(field)
     }
@@ -132,7 +141,7 @@ fun calc_new_coordinates(coord: Coord, direction: Direction): Coord {
 }
 
 fun can_walk_farther(coord: Coord, direction: Direction, allowed_food: Food, field: Field, cleaner: Cleaner): Boolean {
-    if (is_cleaner_or_steps(coord, direction, cleaner)) {
+    if (is_cleaner_or_steps(coord, direction, allowed_food, field, cleaner)) {
         return true
     }
     val new_coord = calc_new_coordinates(coord, direction)
