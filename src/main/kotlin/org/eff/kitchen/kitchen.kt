@@ -27,6 +27,8 @@ class Kitchen : Game() {
     private lateinit var g_mice: Map<Food_mouse, FObject>
     private lateinit var g_cleaner: FObject
     private lateinit var g_cleaner_steps: MutableMap<Coord, FObject>
+    private var level = 1
+    private var level_cleaned = false
 
     init {
         logger.info("kitchen started")
@@ -84,6 +86,13 @@ class Kitchen : Game() {
         redraw_field_if_needed()
         redraw_cleaner_and_steps()
         redraw_mice()
+        if (level_cleaned) {
+            remove_all_objects()
+            level++
+            place = build_place()
+            add_all_objects(place)
+            level_cleaned = false
+        }
     }
 
     private fun build_place(): Place {
@@ -98,6 +107,9 @@ class Kitchen : Game() {
             val points_to_ground = fill(place.field, place.food_mice.toSet())
             update_cleaned_field(points_to_ground)
             update_field(points_to_ground)
+            if (most_of_level_cleaned()) {
+                level_cleaned = true
+            }
         }
     }
 
