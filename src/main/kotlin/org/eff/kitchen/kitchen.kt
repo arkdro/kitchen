@@ -5,6 +5,8 @@ import org.eff.kitchen.config.Srv
 import org.eff.kitchen.config.build_config
 import org.eff.kitchen.coordinates.Coord
 import org.eff.kitchen.direction.Direction
+import org.eff.kitchen.fill.fill
+import org.eff.kitchen.food.Food
 import org.eff.kitchen.g_field.G_field
 import org.eff.kitchen.mouse.Food_mouse
 import org.eff.kitchen.place.Place
@@ -87,15 +89,26 @@ class Kitchen : Game() {
 
     private fun redraw_field_if_needed() {
         if (place.cleaner.just_finished_line) {
-            update_cleaned_field()
+            val points_to_ground = fill(place.field, place.food_mice.toSet())
+            update_cleaned_field(points_to_ground)
+            update_field(points_to_ground)
         }
     }
 
-    private fun update_cleaned_field() {
+    private fun update_cleaned_field(points_to_ground: Set<Coord>) {
+        // remove food objects, so only ground objects
+        // are shown at these coordinates
         for (coord in place.cleaner.cleaned_points) {
-            // remove food objects, so only ground objects
-            // are shown at these coordinates
             g_field.food[coord]?.also { removeObject(it) }
+        }
+        for (coord in points_to_ground) {
+            g_field.food[coord]?.also { removeObject(it) }
+        }
+    }
+
+    private fun update_field(points_to_ground: Set<Coord>) {
+        for (coord in points_to_ground) {
+            place.field.set_point(coord, Food.EMPTY)
         }
     }
 
