@@ -14,6 +14,7 @@ class Cleaner {
     private var tick = 0
     private val tick_limit = 10
     private var updated = true
+    private var at_start = true
     var coord = Coord(0, 0)
     var old_coord = coord
     var direction = Direction.N
@@ -30,6 +31,7 @@ class Cleaner {
         }
         tick = 0
         updated = true
+        at_start = false
         old_coord = coord
         just_finished_line = false
         cleaned_points = mutableSetOf()
@@ -85,6 +87,10 @@ class Cleaner {
         pay_fine()
         clean_marked_line(field)
         set_initial_coordinates()
+        direction = Direction.N
+        updated = true
+        at_start = true
+        tick = 0
         freeze()
     }
 
@@ -116,6 +122,10 @@ class Cleaner {
 
     fun is_updated(): Boolean {
         return updated
+    }
+
+    fun is_at_start(): Boolean {
+        return at_start
     }
 
     fun pay_fine() {
