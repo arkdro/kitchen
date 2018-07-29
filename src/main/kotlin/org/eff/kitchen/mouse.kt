@@ -3,6 +3,7 @@ package org.eff.kitchen.mouse
 import mu.KotlinLogging
 import org.eff.kitchen.Cleaner
 import org.eff.kitchen.coordinates.Coord
+import org.eff.kitchen.direction.Diagonal_direction
 import org.eff.kitchen.direction.Direction
 import org.eff.kitchen.direction.to_deltas
 import org.eff.kitchen.field.Field
@@ -13,7 +14,7 @@ private val logger = KotlinLogging.logger {}
 
 abstract class Mouse : Move {
     abstract var coord: Coord
-    abstract var direction: Direction
+    var direction = create_random_direction()
     abstract var speed: Int
     abstract val allowed_food: Food
     abstract fun to_char(): Char
@@ -62,6 +63,13 @@ abstract class Mouse : Move {
 
     private fun freeze() {
         speed = 0
+    }
+
+    fun create_random_direction(): Direction {
+        val rnd = java.util.Random()
+        val directions = Diagonal_direction().directions
+        val idx = rnd.nextInt(directions.size)
+        return directions[idx]
     }
 
 }

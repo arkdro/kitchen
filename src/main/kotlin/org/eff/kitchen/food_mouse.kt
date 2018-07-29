@@ -9,7 +9,6 @@ import org.eff.kitchen.food.Food
 
 class Food_mouse(initial_corner: Coord, finish_corner: Coord) : Mouse() {
     override var coord: Coord = create_random_coordinates(initial_corner, finish_corner)
-    override var direction: Direction = create_random_direction()
     override var speed = 1
     override val allowed_food = Food.FULL
     override fun to_char(): Char = 'O'
@@ -30,11 +29,4 @@ fun create_random_with_slack(begin: Int, end: Int): Int {
     val slack = 1
     val random_val = rnd.nextInt(len - 2 * slack)
     return begin + random_val + slack
-}
-
-fun create_random_direction(): Direction {
-    val rnd = java.util.Random()
-    val directions = Diagonal_direction().directions
-    val idx = rnd.nextInt(directions.size)
-    return directions[idx]
 }
