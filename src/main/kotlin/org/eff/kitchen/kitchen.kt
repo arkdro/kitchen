@@ -243,17 +243,25 @@ class Kitchen : Game() {
         g_cleaner = create_cleaner_object(place.cleaner)
         addObject(g_cleaner)
         g_cleaner_steps = create_cleaner_step_objects()
-        g_food_mice = create_food_mouse_objects(place.food_mice)
-        g_food_mice.forEach { _, mouse -> addObject(mouse) }
-        g_ground_mice = create_ground_mouse_objects(place.ground_mice)
-        g_ground_mice.forEach { _, mouse -> addObject(mouse) }
+        create_mouse_objects()
     }
 
     private fun remove_all_objects() {
         remove_field_object_from_graphics()
         removeObject(g_cleaner)
+        remove_mouse_objects()
+    }
+
+    private fun remove_mouse_objects() {
         g_food_mice.forEach { _, mouse -> removeObject(mouse) }
         g_ground_mice.forEach { _, mouse -> removeObject(mouse) }
+    }
+
+    private fun create_mouse_objects() {
+        g_food_mice = create_food_mouse_objects(place.food_mice)
+        g_food_mice.forEach { _, mouse -> addObject(mouse) }
+        g_ground_mice = create_ground_mouse_objects(place.ground_mice)
+        g_ground_mice.forEach { _, mouse -> addObject(mouse) }
     }
 }
 
