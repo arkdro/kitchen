@@ -84,6 +84,9 @@ private fun is_cleaner_or_steps(coord: Coord, direction: Direction, allowed_food
 }
 
 private fun disallowed_food(coord: Coord, field: Field, allowed_food: Food): Boolean {
+    if (!valid_coordinates(coord, field.width, field.height)) {
+        return true
+    }
     val point = field.get_point(coord)
     return point != allowed_food
 }
@@ -104,15 +107,35 @@ private fun get_new_direction(coord: Coord, dir: Direction, allowed_food: Food, 
 
 fun is_vertical_wall(coord: Coord, dir: Direction, allowed_food: Food, field: Field): Boolean {
     val deltas = dir.to_deltas()
+    val coordinates_x = coord + Coord(deltas.x, 0)
+    val coordinates_y = coord + Coord(0, deltas.y)
+    val valid_x = valid_coordinates(coordinates_x, field.width, field.height)
+    val valid_y = valid_coordinates(coordinates_y, field.width, field.height)
+    if (valid_x && !valid_y) {
+        return false
+    }
+    if (!valid_x && valid_y) {
+        return true
+    }
     val coordinates_diagonal = coord + deltas
     val food_diagonal = field.get_point(coordinates_diagonal)
-    val coordinates_x = coord + Coord(deltas.x, 0)
     val food_x = field.get_point(coordinates_x)
     return food_diagonal != allowed_food
             && food_x != allowed_food
 }
 
 fun is_corner(coord: Coord, dir: Direction, allowed_food: Food, field: Field): Boolean {
+    val deltas = dir.to_deltas()
+    val coordinates_x = coord + Coord(deltas.x, 0)
+    val coordinates_y = coord + Coord(0, deltas.y)
+    val valid_x = valid_coordinates(coordinates_x, field.width, field.height)
+    val valid_y = valid_coordinates(coordinates_y, field.width, field.height)
+    if (!valid_x && !valid_y) {
+        return true
+    }
+    if (valid_x != valid_y) {
+        return false
+    }
     return is_open_corner(coord, dir, allowed_food, field)
             || is_closed_corner(coord, dir, allowed_food, field)
 }
@@ -153,6 +176,9 @@ fun can_walk_farther(coord: Coord, direction: Direction, allowed_food: Food, fie
         return true
     }
     val new_coord = calc_new_coordinates(coord, direction)
+    if (!valid_coordinates(new_coord, field.width, field.height)) {
+        return false
+    }
     val food = field.get_point(new_coord)
     if (food == Food.STEP) {
         logger.error("food == step, ${coord}, ${cleaner.coord}, ${cleaner.marked_line}")
