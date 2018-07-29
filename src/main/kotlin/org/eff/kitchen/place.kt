@@ -38,7 +38,7 @@ class Place(val width: Int, val height: Int, val h_gap: Int, val v_gap: Int, lev
     }
 
     private fun display() {
-        val food_mouse_coordinates = build_food_mouse_coordinates(food_mice)
+        val food_mouse_coordinates = build_mouse_coordinates(food_mice)
         val ground_mouse_coordinates = build_mouse_coordinates(ground_mice)
         for (y in 0 until height) {
             for (x in 0 until width) {
@@ -82,11 +82,6 @@ fun create_food_mice(width: Int, height: Int, h_gap: Int, v_gap: Int, level: Int
         list.add(mouse)
     }
     return list
-}
-
-fun build_food_mouse_coordinates(food_mice: List<Food_mouse>): Map<Coord, Mouse> {
-    val coords = food_mice.map { Pair(it.coord, it) }
-    return coords.toMap()
 }
 
 fun build_mouse_coordinates(mice: List<Mouse>): Map<Coord, Mouse> {
