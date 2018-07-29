@@ -6,13 +6,14 @@ import org.eff.kitchen.coordinates.Coord
 import org.eff.kitchen.direction.Direction // for debug only
 import org.eff.kitchen.field.Field
 import org.eff.kitchen.mouse.Food_mouse
+import org.eff.kitchen.mouse.Ground_mouse
 import org.eff.kitchen.mouse.Mouse
 
 class Place(val width: Int, val height: Int, val h_gap: Int, val v_gap: Int, level: Int) {
     var field = Field(width, height, h_gap, v_gap)
     val cleaner = Cleaner()
     val food_mice = create_food_mice(width, height, h_gap, v_gap, level)
-    //val ground_mice = MutableList<Ground_mouse>(0, {})
+    val ground_mice = create_ground_mice(width, height, h_gap, v_gap)
     fun run() {
         while (true) {
             one_iteration()
@@ -38,11 +39,15 @@ class Place(val width: Int, val height: Int, val h_gap: Int, val v_gap: Int, lev
 
     private fun display() {
         val food_mouse_coordinates = build_food_mouse_coordinates(food_mice)
+        val ground_mouse_coordinates = build_mouse_coordinates(ground_mice)
         for (y in 0 until height) {
             for (x in 0 until width) {
                 val display_point: Char
                 if (food_mouse_coordinates.contains(Coord(x, y))) {
                     val mouse = food_mouse_coordinates[Coord(x, y)]
+                    display_point = mouse!!.to_char()
+                } else if (ground_mouse_coordinates.contains(Coord(x, y))) {
+                    val mouse = ground_mouse_coordinates[Coord(x, y)]
                     display_point = mouse!!.to_char()
                 } else if (cleaner.coord == Coord(x, y)) {
                     display_point = cleaner.to_char()
@@ -59,6 +64,7 @@ class Place(val width: Int, val height: Int, val h_gap: Int, val v_gap: Int, lev
 
     private fun update_mice() {
         food_mice.forEach { it.move(field, cleaner) }
+        ground_mice.forEach { it.move(field, cleaner) }
     }
 
     private fun update_cleaner() {
@@ -81,4 +87,16 @@ fun create_food_mice(width: Int, height: Int, h_gap: Int, v_gap: Int, level: Int
 fun build_food_mouse_coordinates(food_mice: List<Food_mouse>): Map<Coord, Mouse> {
     val coords = food_mice.map { Pair(it.coord, it) }
     return coords.toMap()
+}
+
+fun build_mouse_coordinates(mice: List<Mouse>): Map<Coord, Mouse> {
+    val coords = mice.map { Pair(it.coord, it) }
+    return coords.toMap()
+}
+
+fun create_ground_mice(width: Int, height: Int, h_gap: Int, v_gap: Int): MutableList<Ground_mouse> {
+    val mice = mutableListOf<Ground_mouse>()
+    val mouse = Ground_mouse(width, height, h_gap, v_gap)
+    mice.add(mouse)
+    return mice
 }
