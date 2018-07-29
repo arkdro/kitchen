@@ -13,7 +13,9 @@ class Place(val width: Int, val height: Int, val h_gap: Int, val v_gap: Int, lev
     var field = Field(width, height, h_gap, v_gap)
     val cleaner = Cleaner()
     val food_mice = create_food_mice(width, height, h_gap, v_gap, level)
-    val ground_mice = create_ground_mice(width, height, h_gap, v_gap)
+    var ground_mice = create_ground_mice(width, height, h_gap, v_gap)
+    val ground_mouse_limit = 3
+
     fun run() {
         while (true) {
             one_iteration()
@@ -75,6 +77,10 @@ class Place(val width: Int, val height: Int, val h_gap: Int, val v_gap: Int, lev
         val mouse = Ground_mouse(width, height, h_gap, v_gap)
         ground_mice.add(mouse)
         return mouse
+    }
+
+    fun remove_ground_mice() {
+        ground_mice = mutableListOf<Ground_mouse>()
     }
 }
 

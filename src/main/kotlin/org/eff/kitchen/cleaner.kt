@@ -78,10 +78,6 @@ class Cleaner {
         freeze()
     }
 
-    private fun pay_fine() {
-        // not implemented
-    }
-
     private fun run_into_wall() {
         freeze()
     }
@@ -106,6 +102,10 @@ class Cleaner {
         marked_line = mutableSetOf()
         logger.debug("finish line, points: $cleaned_points, line: $marked_line")
         just_finished_line = true
+    }
+
+    fun pay_fine() {
+        // not implemented
     }
 
     fun freeze() {

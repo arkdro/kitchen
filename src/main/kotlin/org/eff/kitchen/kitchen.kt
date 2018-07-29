@@ -211,6 +211,19 @@ class Kitchen : Game() {
     }
 
     private fun add_ground_mouse() {
+        if (place.ground_mice.size >= place.ground_mouse_limit) {
+            place.cleaner.pay_fine()
+            remove_ground_mice()
+        }
+        add_one_ground_mouse()
+    }
+
+    private fun remove_ground_mice() {
+        place.remove_ground_mice()
+        remove_ground_mouse_objects()
+    }
+
+    private fun add_one_ground_mouse() {
         val mouse = place.add_ground_mouse()
         val g_mouse = create_one_mouse_object(mouse.coord)
         g_ground_mice[mouse] = g_mouse
