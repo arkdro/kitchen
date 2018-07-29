@@ -17,6 +17,7 @@ import org.frice.obj.FObject
 import org.frice.obj.sub.ShapeObject
 import org.frice.resource.graphics.ColorResource
 import org.frice.util.shape.FRectangle
+import org.frice.util.time.FTimer
 import java.awt.event.KeyEvent
 import java.awt.event.KeyListener
 
@@ -26,11 +27,12 @@ private val config = build_config()
 class Kitchen : Game() {
     private lateinit var g_field: G_field
     private lateinit var g_food_mice: Map<Food_mouse, FObject>
-    private lateinit var g_ground_mice: Map<Ground_mouse, FObject>
+    private lateinit var g_ground_mice: MutableMap<Ground_mouse, FObject>
     private lateinit var g_cleaner: FObject
     private lateinit var g_cleaner_steps: MutableMap<Coord, FObject>
     private var level = 1
     private var level_cleaned = false
+    private var ground_mouse_timer = FTimer(60000)
 
     init {
         logger.info("kitchen started")
@@ -80,6 +82,9 @@ class Kitchen : Game() {
             if (key_pressed != KeyEvent.VK_UNDO) {
                 place.cleaner.freeze()
             }
+        }
+        if (ground_mouse_timer.ended()) {
+            add_ground_mouse()
         }
         place.one_iteration()
         redraw_field_if_needed()
@@ -205,6 +210,13 @@ class Kitchen : Game() {
         }
     }
 
+    private fun add_ground_mouse() {
+        val mouse = place.add_ground_mouse()
+        val g_mouse = create_one_mouse_object(mouse.coord)
+        g_ground_mice[mouse] = g_mouse
+        addObject(g_mouse)
+    }
+
     private fun add_field_object_to_graphics() {
         // lower layer is ground
         for ((_, obj) in g_field.ground) {
@@ -266,7 +278,7 @@ private fun create_food_mouse_objects(mice: List<Food_mouse>): Map<Food_mouse, F
     return result
 }
 
-private fun create_ground_mouse_objects(mice: List<Ground_mouse>): Map<Ground_mouse, FObject> {
+private fun create_ground_mouse_objects(mice: List<Ground_mouse>): MutableMap<Ground_mouse, FObject> {
     val result = mutableMapOf<Ground_mouse, FObject>()
     for (mouse in mice) {
         val g_mouse = create_one_mouse_object(mouse.coord)
