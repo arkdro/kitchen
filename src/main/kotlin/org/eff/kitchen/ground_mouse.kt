@@ -14,6 +14,10 @@ class Ground_mouse(width: Int, height: Int, h_gap: Int, v_gap: Int) : Mouse() {
         diagonal_move(field, cleaner)
     }
 
+    init {
+        old_coordinates = coord
+    }
+
 }
 
 private fun create_random_coordinates(width: Int, height: Int, h_gap: Int, v_gap: Int): Coord {

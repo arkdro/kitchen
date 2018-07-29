@@ -15,6 +15,11 @@ class Food_mouse(initial_corner: Coord, finish_corner: Coord) : Mouse() {
     override fun move(field: Field, cleaner: Cleaner) {
         diagonal_move(field, cleaner)
     }
+
+    init {
+        old_coordinates = coord
+    }
+
 }
 
 fun create_random_coordinates(initial_corner: Coord, finish_corner: Coord): Coord {
