@@ -9,6 +9,7 @@ import org.eff.kitchen.fill.fill
 import org.eff.kitchen.food.Food
 import org.eff.kitchen.g_field.G_field
 import org.eff.kitchen.mouse.Food_mouse
+import org.eff.kitchen.mouse.Ground_mouse
 import org.eff.kitchen.place.Place
 import org.frice.Game
 import org.frice.launch
@@ -24,7 +25,8 @@ private val config = build_config()
 
 class Kitchen : Game() {
     private lateinit var g_field: G_field
-    private lateinit var g_mice: Map<Food_mouse, FObject>
+    private lateinit var g_food_mice: Map<Food_mouse, FObject>
+    private lateinit var g_ground_mice: Map<Ground_mouse, FObject>
     private lateinit var g_cleaner: FObject
     private lateinit var g_cleaner_steps: MutableMap<Coord, FObject>
     private var level = 1
@@ -191,7 +193,13 @@ class Kitchen : Game() {
     private fun redraw_mice() {
         for (mouse in place.food_mice) {
             val delta = mouse.coord - mouse.old_coordinates
-            val g_mouse = g_mice[mouse]!!
+            val g_mouse = g_food_mice[mouse]!!
+            g_mouse.move(delta.x * config[Srv.step].toDouble(),
+                    delta.y * config[Srv.step].toDouble())
+        }
+        for (mouse in place.ground_mice) {
+            val delta = mouse.coord - mouse.old_coordinates
+            val g_mouse = g_ground_mice[mouse]!!
             g_mouse.move(delta.x * config[Srv.step].toDouble(),
                     delta.y * config[Srv.step].toDouble())
         }
@@ -223,14 +231,17 @@ class Kitchen : Game() {
         g_cleaner = create_cleaner_object(place.cleaner)
         addObject(g_cleaner)
         g_cleaner_steps = create_cleaner_step_objects()
-        g_mice = create_mouse_objects(place.food_mice)
-        g_mice.forEach { _, mouse -> addObject(mouse) }
+        g_food_mice = create_food_mouse_objects(place.food_mice)
+        g_food_mice.forEach { _, mouse -> addObject(mouse) }
+        g_ground_mice = create_ground_mouse_objects(place.ground_mice)
+        g_ground_mice.forEach { _, mouse -> addObject(mouse) }
     }
 
     private fun remove_all_objects() {
         remove_field_object_from_graphics()
         removeObject(g_cleaner)
-        g_mice.forEach { _, mouse -> removeObject(mouse) }
+        g_food_mice.forEach { _, mouse -> removeObject(mouse) }
+        g_ground_mice.forEach { _, mouse -> removeObject(mouse) }
     }
 }
 
@@ -246,8 +257,17 @@ private fun create_cleaner_object(cleaner: Cleaner): FObject {
     return obj
 }
 
-private fun create_mouse_objects(mice: List<Food_mouse>): Map<Food_mouse, FObject> {
+private fun create_food_mouse_objects(mice: List<Food_mouse>): Map<Food_mouse, FObject> {
     val result = mutableMapOf<Food_mouse, FObject>()
+    for (mouse in mice) {
+        val g_mouse = create_one_mouse_object(mouse.coord)
+        result[mouse] = g_mouse
+    }
+    return result
+}
+
+private fun create_ground_mouse_objects(mice: List<Ground_mouse>): Map<Ground_mouse, FObject> {
+    val result = mutableMapOf<Ground_mouse, FObject>()
     for (mouse in mice) {
         val g_mouse = create_one_mouse_object(mouse.coord)
         result[mouse] = g_mouse
