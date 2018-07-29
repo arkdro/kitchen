@@ -94,19 +94,21 @@ abstract class Mouse : Move {
 
 private fun is_cleaner_or_steps(coord: Coord, direction: Direction, allowed_food: Food, field: Field, cleaner: Cleaner): Boolean {
     val new_coord = calc_new_coordinates(coord, direction)
-    if (disallowed_food(new_coord, field, allowed_food)) {
-        return false
-    } else {
+    if (allowed_food(new_coord, field, allowed_food)) {
         return new_coord == cleaner.coord || cleaner.marked_line.contains(new_coord)
+    } else {
+        return false
     }
 }
 
-private fun disallowed_food(coord: Coord, field: Field, allowed_food: Food): Boolean {
-    if (!valid_coordinates(coord, field.width, field.height)) {
-        return true
-    }
+private fun allowed_food(coord: Coord, field: Field, allowed_food: Food): Boolean {
     val point = field.get_point(coord)
-    return point != allowed_food
+    if (point == Food.STEP) {
+        // the real food here is Food.FULL, so compare it with allowed_food
+        return Food.FULL == allowed_food
+    } else {
+        return point == allowed_food
+    }
 }
 
 private fun bite_cleaner_if_possible(coord: Coord, direction: Direction, allowed_food: Food, field: Field, cleaner: Cleaner) {
