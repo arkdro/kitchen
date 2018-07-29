@@ -205,3 +205,8 @@ private fun log_error(field: Field, new_coord: Coord, new_direction: Direction,
                     + "new direction: $new_direction"
     )
 }
+
+private fun valid_coordinates(coord: Coord, width: Int, height: Int): Boolean {
+    return coord.x >= 0 && coord.x < width &&
+            coord.y >= 0 && coord.y < height
+}
