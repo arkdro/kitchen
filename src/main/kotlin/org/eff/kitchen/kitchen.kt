@@ -155,6 +155,9 @@ class Kitchen : Game() {
     }
 
     private fun redraw_cleaner() {
+        if (!place.cleaner.is_updated()) {
+            return
+        }
         val delta = place.cleaner.coord - place.cleaner.old_coord
         g_cleaner.move(delta.x * config[Srv.step].toDouble(),
                 delta.y * config[Srv.step].toDouble())
@@ -197,12 +200,18 @@ class Kitchen : Game() {
 
     private fun redraw_mice() {
         for (mouse in place.food_mice) {
+            if (!mouse.is_updated()) {
+                continue
+            }
             val delta = mouse.coord - mouse.old_coordinates
             val g_mouse = g_food_mice[mouse]!!
             g_mouse.move(delta.x * config[Srv.step].toDouble(),
                     delta.y * config[Srv.step].toDouble())
         }
         for (mouse in place.ground_mice) {
+            if (!mouse.is_updated()) {
+                continue
+            }
             val delta = mouse.coord - mouse.old_coordinates
             val g_mouse = g_ground_mice[mouse]!!
             g_mouse.move(delta.x * config[Srv.step].toDouble(),

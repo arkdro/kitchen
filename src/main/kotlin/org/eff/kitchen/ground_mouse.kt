@@ -6,13 +6,11 @@ import org.eff.kitchen.field.Field
 import org.eff.kitchen.food.Food
 
 class Ground_mouse(width: Int, height: Int, h_gap: Int, v_gap: Int) : Mouse() {
+    override val tick_limit = 10
     override var coord: Coord = create_random_coordinates(width, height, h_gap, v_gap)
     override var speed = 1
     override val allowed_food = Food.EMPTY
     override fun to_char(): Char = '#'
-    override fun move(field: Field, cleaner: Cleaner) {
-        diagonal_move(field, cleaner)
-    }
 
     init {
         old_coordinates = coord

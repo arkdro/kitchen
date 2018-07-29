@@ -13,12 +13,26 @@ import org.eff.kitchen.move.Move
 private val logger = KotlinLogging.logger {}
 
 abstract class Mouse : Move {
+    var tick = 0
+    abstract val tick_limit: Int
+    private var updated = true
     abstract var coord: Coord
     var direction = create_random_direction()
     abstract var speed: Int
     abstract val allowed_food: Food
     abstract fun to_char(): Char
     lateinit var old_coordinates: Coord // lateinit or real init somehow?
+
+    override fun move(field: Field, cleaner: Cleaner) {
+        tick++
+        if (tick >= tick_limit) {
+            tick = 0
+            updated = true
+            diagonal_move(field, cleaner)
+        } else {
+            updated = false
+        }
+    }
 
     fun diagonal_move(field: Field, cleaner: Cleaner) {
         if (speed == 0) {
@@ -59,6 +73,10 @@ abstract class Mouse : Move {
         if (wrong_background(field, coord, allowed_food)) {
             log_error(field, coord, direction, old_coordinates, old_direction, allowed_food)
         }
+    }
+
+    fun is_updated(): Boolean {
+        return updated
     }
 
     private fun freeze() {

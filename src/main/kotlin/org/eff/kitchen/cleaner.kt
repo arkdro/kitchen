@@ -11,6 +11,9 @@ import org.eff.kitchen.mouse.Food_mouse
 private val logger = KotlinLogging.logger {}
 
 class Cleaner {
+    private var tick = 0
+    private val tick_limit = 10
+    private var updated = true
     var coord = Coord(0, 0)
     var old_coord = coord
     var direction = Direction.N
@@ -20,6 +23,13 @@ class Cleaner {
     var cleaned_points = mutableSetOf<Coord>()
 
     fun move(field: Field, food_mice: List<Food_mouse>) {
+        tick++
+        if (tick < tick_limit) {
+            updated = false
+            return
+        }
+        tick = 0
+        updated = true
         old_coord = coord
         just_finished_line = false
         cleaned_points = mutableSetOf()
@@ -102,6 +112,10 @@ class Cleaner {
         marked_line = mutableSetOf()
         logger.debug("finish line, points: $cleaned_points, line: $marked_line")
         just_finished_line = true
+    }
+
+    fun is_updated(): Boolean {
+        return updated
     }
 
     fun pay_fine() {
