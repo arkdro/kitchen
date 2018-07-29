@@ -70,6 +70,12 @@ class Place(val width: Int, val height: Int, val h_gap: Int, val v_gap: Int, lev
     private fun update_cleaner() {
         cleaner.move(field, food_mice)
     }
+
+    fun add_ground_mouse(): Ground_mouse {
+        val mouse = Ground_mouse(width, height, h_gap, v_gap)
+        ground_mice.add(mouse)
+        return mouse
+    }
 }
 
 fun create_food_mice(width: Int, height: Int, h_gap: Int, v_gap: Int, level: Int): MutableList<Food_mouse> {
