@@ -190,12 +190,12 @@ fun calc_new_coordinates(coord: Coord, direction: Direction): Coord {
 }
 
 fun can_walk_farther(coord: Coord, direction: Direction, allowed_food: Food, field: Field, cleaner: Cleaner): Boolean {
-    if (is_cleaner_or_steps(coord, direction, allowed_food, field, cleaner)) {
-        return true
-    }
     val new_coord = calc_new_coordinates(coord, direction)
     if (!valid_coordinates(new_coord, field.width, field.height)) {
         return false
+    }
+    if (is_cleaner_or_steps(coord, direction, allowed_food, field, cleaner)) {
+        return true
     }
     val food = field.get_point(new_coord)
     if (food == Food.STEP) {
