@@ -21,6 +21,7 @@ import org.frice.util.time.FTimer
 import java.awt.event.KeyEvent
 import java.awt.event.KeyListener
 
+private const val ground_mouse_time = 60000
 private val logger = KotlinLogging.logger {}
 private val config = build_config()
 
@@ -32,7 +33,7 @@ class Kitchen : Game() {
     private lateinit var g_cleaner_steps: MutableMap<Coord, FObject>
     private var level = 1
     private var level_cleaned = false
-    private var ground_mouse_timer = FTimer(60000)
+    private var ground_mouse_timer = FTimer(ground_mouse_time)
 
     init {
         logger.info("kitchen started")
@@ -96,7 +97,12 @@ class Kitchen : Game() {
             place = build_place()
             add_all_objects(place)
             level_cleaned = false
+            init_ground_mouse_timer()
         }
+    }
+
+    private fun init_ground_mouse_timer() {
+        ground_mouse_timer = FTimer(ground_mouse_time)
     }
 
     private fun build_place(): Place {
@@ -112,6 +118,7 @@ class Kitchen : Game() {
             val points_to_ground = fill(place.field, place.food_mice.toSet())
             update_cleaned_field(points_to_ground)
             update_field(points_to_ground)
+            init_ground_mouse_timer()
             if (most_of_level_cleaned()) {
                 level_cleaned = true
             }
