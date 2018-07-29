@@ -158,9 +158,15 @@ class Kitchen : Game() {
         if (!place.cleaner.is_updated()) {
             return
         }
-        val delta = place.cleaner.coord - place.cleaner.old_coord
-        g_cleaner.move(delta.x * config[Srv.step].toDouble(),
-                delta.y * config[Srv.step].toDouble())
+        if (place.cleaner.is_at_start()) {
+            removeObject(g_cleaner)
+            g_cleaner = create_cleaner_object(place.cleaner)
+            addObject(g_cleaner)
+        } else {
+            val delta = place.cleaner.coord - place.cleaner.old_coord
+            g_cleaner.move(delta.x * config[Srv.step].toDouble(),
+                    delta.y * config[Srv.step].toDouble())
+        }
     }
 
     private fun update_cleaner_step_objects() {
