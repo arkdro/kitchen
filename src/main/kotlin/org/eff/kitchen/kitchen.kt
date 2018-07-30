@@ -14,6 +14,7 @@ import org.eff.kitchen.place.Place
 import org.frice.Game
 import org.frice.launch
 import org.frice.obj.FObject
+import org.frice.obj.button.SimpleText
 import org.frice.obj.sub.ShapeObject
 import org.frice.resource.graphics.ColorResource
 import org.frice.util.shape.FRectangle
@@ -31,6 +32,8 @@ class Kitchen : Game() {
     private lateinit var g_ground_mice: MutableMap<Ground_mouse, FObject>
     private lateinit var g_cleaner: FObject
     private lateinit var g_cleaner_steps: MutableMap<Coord, FObject>
+    private lateinit var g_score: SimpleText
+    private var score = 0
     private var level = 1
     private var level_cleaned = false
     private var ground_mouse_timer = FTimer(ground_mouse_time)
@@ -47,7 +50,8 @@ class Kitchen : Game() {
         level = 1 // necessary, otherwise it becomes 0
         place = build_place()
         val window_width = config[Srv.width] + config[Srv.add_window_horizontal]
-        val window_height = config[Srv.height] + config[Srv.add_window_vertical]
+        val window_height = config[Srv.height] + config[Srv.add_window_vertical] +
+                config[Srv.step] * 3
         setSize(window_width, window_height)
         autoGC = false
         isResizable = true
@@ -118,6 +122,7 @@ class Kitchen : Game() {
             val points_to_ground = fill(place.field, place.food_mice.toSet())
             update_cleaned_field(points_to_ground)
             update_field(points_to_ground)
+            update_score_text()
             init_ground_mouse_timer()
             if (most_of_level_cleaned()) {
                 level_cleaned = true
@@ -154,6 +159,12 @@ class Kitchen : Game() {
         for (coord in points_to_ground) {
             place.field.set_point(coord, Food.EMPTY)
         }
+    }
+
+    private fun update_score_text() {
+        val n = place.field.get_current_food_count()
+        val text = "Cleaned: $n"
+        g_score.text = text
     }
 
     private fun redraw_cleaner_and_steps() {
@@ -232,6 +243,21 @@ class Kitchen : Game() {
         }
     }
 
+    private fun add_score() {
+        val text = ""
+        val y = config[Srv.height] + config[Srv.add_window_vertical] +
+                config[Srv.step]
+        val x = 0
+        g_score = SimpleText(ColorResource.MAGENTA, text, x.toDouble(), y.toDouble())
+        g_score.textSize = config[Srv.step].toDouble() * 2
+        update_score_text()
+        addObject(g_score)
+    }
+
+    private fun remove_score() {
+        removeObject(g_score)
+    }
+
     private fun add_ground_mouse() {
         if (place.ground_mice.size >= place.ground_mouse_limit) {
             place.cleaner.pay_fine()
@@ -273,6 +299,7 @@ class Kitchen : Game() {
     }
 
     private fun add_all_objects(place: Place) {
+        add_score()
         g_field = G_field(config, place)
         add_field_object_to_graphics()
         g_cleaner = create_cleaner_object(place.cleaner)
@@ -285,6 +312,7 @@ class Kitchen : Game() {
         remove_field_object_from_graphics()
         removeObject(g_cleaner)
         remove_mouse_objects()
+        remove_score()
     }
 
     private fun remove_mouse_objects() {
