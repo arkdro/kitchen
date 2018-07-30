@@ -6,6 +6,20 @@ import org.eff.kitchen.food.Food
 class Field(val width: Int, val height: Int, val h_gap: Int, val v_gap: Int) {
     private val field = fill_stock(width, height, h_gap, v_gap)
 
+    fun get_current_food_count(): Int {
+        val to_clean = (width - 2 * h_gap) * (height - 2 * v_gap)
+        var food = 0
+        for (y in 0 until height) {
+            for (x in 0 until width) {
+                val point = get_point(Coord(x, y))
+                if (point == Food.FULL) {
+                    food++
+                }
+            }
+        }
+        return to_clean - food
+    }
+
     fun get_point(coordinates: Coord): Food {
         return field[coordinates.y][coordinates.x]
     }
