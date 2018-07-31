@@ -41,6 +41,9 @@ class Kitchen : Game() {
     private var level = 1
     private var level_cleaned = false
     private var ground_mouse_timer = FTimer(ground_mouse_time)
+    private var showing_end = false
+    private lateinit var end_timer: FTimer
+    private lateinit var g_end_text: SimpleText
 
     init {
         logger.info("kitchen started")
@@ -78,6 +81,15 @@ class Kitchen : Game() {
 
     override fun onRefresh() {
         super.onRefresh()
+        if (showing_end && end_timer.ended()) {
+            logger.debug("end timer ended")
+            removeObject(g_end_text)
+            init_all_for_start()
+            showing_end = false
+            return
+        } else if (showing_end) {
+            return
+        }
         if (is_allowed_key(key_pressed)) {
             logger.debug { "pressed, onRefresh: $key_pressed" }
             val dir = key_event_to_direction(key_pressed)
@@ -99,6 +111,13 @@ class Kitchen : Game() {
         redraw_field_if_needed()
         redraw_cleaner_and_steps()
         redraw_mice()
+        if (place.cleaner.shots <= 0) {
+            remove_all_objects()
+            display_end_message()
+            showing_end = true
+            end_timer = FTimer(3000)
+            return
+        }
         if (level_cleaned) {
             remove_all_objects()
             level++
@@ -108,6 +127,16 @@ class Kitchen : Game() {
             level_cleaned = false
             init_ground_mouse_timer()
         }
+    }
+
+    private fun init_all_for_start() {
+        level = 1
+        score_at_level_begin = 0
+        total_score = 0
+        place = build_place()
+        add_all_objects(place)
+        level_cleaned = false
+        init_ground_mouse_timer()
     }
 
     private fun init_ground_mouse_timer() {
@@ -384,6 +413,21 @@ class Kitchen : Game() {
     private fun create_ground_mouse_objects() {
         g_ground_mice = create_ground_mouse_objects(place.ground_mice)
         g_ground_mice.forEach { _, mouse -> addObject(mouse) }
+    }
+
+    private fun display_end_message() {
+        g_end_text = create_end_message_object()
+        addObject(g_end_text)
+    }
+
+    private fun create_end_message_object(): SimpleText {
+        val text = "GAME OVER"
+        val y = config[Srv.height] / 2
+        val x = config[Srv.width] / 4
+        val obj = SimpleText(ColorResource.RED, text, x.toDouble(), y.toDouble())
+        obj.textSize = config[Srv.step].toDouble() * 2
+        obj.text = text
+        return obj
     }
 
 }
