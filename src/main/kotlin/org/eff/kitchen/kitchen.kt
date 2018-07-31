@@ -249,7 +249,7 @@ class Kitchen : Game() {
                 config[Srv.step]
         val x = 0
         g_score = SimpleText(ColorResource.MAGENTA, text, x.toDouble(), y.toDouble())
-        g_score.textSize = config[Srv.step].toDouble() * 2
+        g_score.textSize = config[Srv.step].toDouble() * 1.25
         update_score_text()
         addObject(g_score)
     }
