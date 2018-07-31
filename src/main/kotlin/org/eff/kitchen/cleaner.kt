@@ -15,6 +15,7 @@ class Cleaner {
     private val tick_limit = 10
     private var updated = true
     private var at_start = true
+    var shots = 3
     var coord = Coord(0, 0)
     var old_coord = coord
     var direction = Direction.N
@@ -129,7 +130,7 @@ class Cleaner {
     }
 
     fun pay_fine() {
-        // not implemented
+        shots--
     }
 
     fun freeze() {
