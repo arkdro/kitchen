@@ -162,8 +162,8 @@ class Kitchen : Game() {
     }
 
     private fun update_score_text() {
-        val n = place.field.get_current_food_count()
-        val text = "Cleaned: $n"
+        score = place.field.get_current_food_count()
+        val text = "Cleaned: $score"
         g_score.text = text
     }
 
