@@ -33,7 +33,10 @@ class Kitchen : Game() {
     private lateinit var g_cleaner: FObject
     private lateinit var g_cleaner_steps: MutableMap<Coord, FObject>
     private lateinit var g_score: SimpleText
+    private lateinit var g_total_score: SimpleText
     private var score = 0
+    private var total_score = 0
+    private var score_at_level_begin = 0
     private var level = 1
     private var level_cleaned = false
     private var ground_mouse_timer = FTimer(ground_mouse_time)
@@ -98,6 +101,7 @@ class Kitchen : Game() {
         if (level_cleaned) {
             remove_all_objects()
             level++
+            score_at_level_begin = total_score
             place = build_place()
             add_all_objects(place)
             level_cleaned = false
@@ -123,6 +127,7 @@ class Kitchen : Game() {
             update_cleaned_field(points_to_ground)
             update_field(points_to_ground)
             update_score_text()
+            update_total_score_text()
             init_ground_mouse_timer()
             if (most_of_level_cleaned()) {
                 level_cleaned = true
@@ -165,6 +170,12 @@ class Kitchen : Game() {
         score = place.field.get_current_food_count()
         val text = "Cleaned: $score"
         g_score.text = text
+    }
+
+    private fun update_total_score_text() {
+        total_score = score_at_level_begin + score
+        val text = "Total: $total_score"
+        g_total_score.text = text
     }
 
     private fun redraw_cleaner_and_steps() {
@@ -258,6 +269,21 @@ class Kitchen : Game() {
         removeObject(g_score)
     }
 
+    private fun add_total_score() {
+        val text = ""
+        val y = config[Srv.height] + config[Srv.add_window_vertical] +
+                config[Srv.step]
+        val x = 14 * config[Srv.step]
+        g_total_score = SimpleText(ColorResource.MAGENTA, text, x.toDouble(), y.toDouble())
+        g_total_score.textSize = config[Srv.step].toDouble() * 1.25
+        update_total_score_text()
+        addObject(g_total_score)
+    }
+
+    private fun remove_total_score() {
+        removeObject(g_total_score)
+    }
+
     private fun add_ground_mouse() {
         if (place.ground_mice.size >= place.ground_mouse_limit) {
             place.cleaner.pay_fine()
@@ -300,6 +326,7 @@ class Kitchen : Game() {
 
     private fun add_all_objects(place: Place) {
         add_score()
+        add_total_score()
         g_field = G_field(config, place)
         add_field_object_to_graphics()
         g_cleaner = create_cleaner_object(place.cleaner)
@@ -313,6 +340,7 @@ class Kitchen : Game() {
         removeObject(g_cleaner)
         remove_mouse_objects()
         remove_score()
+        remove_total_score()
     }
 
     private fun remove_mouse_objects() {
