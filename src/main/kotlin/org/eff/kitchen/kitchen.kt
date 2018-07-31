@@ -34,6 +34,7 @@ class Kitchen : Game() {
     private lateinit var g_cleaner_steps: MutableMap<Coord, FObject>
     private lateinit var g_score: SimpleText
     private lateinit var g_total_score: SimpleText
+    private lateinit var g_level: SimpleText
     private var score = 0
     private var total_score = 0
     private var score_at_level_begin = 0
@@ -178,6 +179,11 @@ class Kitchen : Game() {
         g_total_score.text = text
     }
 
+    private fun update_level_text() {
+        val text = "Level: $level"
+        g_level.text = text
+    }
+
     private fun redraw_cleaner_and_steps() {
         redraw_cleaner()
         update_cleaner_step_objects()
@@ -284,6 +290,21 @@ class Kitchen : Game() {
         removeObject(g_total_score)
     }
 
+    private fun add_level_object() {
+        val text = ""
+        val y = config[Srv.height] + config[Srv.add_window_vertical] +
+                config[Srv.step]
+        val x = 24 * config[Srv.step]
+        g_level = SimpleText(ColorResource.MAGENTA, text, x.toDouble(), y.toDouble())
+        g_level.textSize = config[Srv.step].toDouble() * 1.25
+        update_level_text()
+        addObject(g_level)
+    }
+
+    private fun remove_level_object() {
+        removeObject(g_level)
+    }
+
     private fun add_ground_mouse() {
         if (place.ground_mice.size >= place.ground_mouse_limit) {
             place.cleaner.pay_fine()
@@ -327,6 +348,7 @@ class Kitchen : Game() {
     private fun add_all_objects(place: Place) {
         add_score()
         add_total_score()
+        add_level_object()
         g_field = G_field(config, place)
         add_field_object_to_graphics()
         g_cleaner = create_cleaner_object(place.cleaner)
@@ -341,6 +363,7 @@ class Kitchen : Game() {
         remove_mouse_objects()
         remove_score()
         remove_total_score()
+        remove_level_object()
     }
 
     private fun remove_mouse_objects() {
