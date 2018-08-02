@@ -133,6 +133,10 @@ class Cleaner {
         shots--
     }
 
+    fun collapsed_by_ground_mice(field: Field) {
+        step_exploded(field)
+    }
+
     fun freeze() {
         speed = 0
     }
