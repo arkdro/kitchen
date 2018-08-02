@@ -8,6 +8,7 @@ import org.eff.kitchen.field.Field
 import org.eff.kitchen.mouse.Food_mouse
 import org.eff.kitchen.mouse.Ground_mouse
 import org.eff.kitchen.mouse.Mouse
+import kotlin.math.max
 
 class Place(val width: Int, val height: Int, val h_gap: Int, val v_gap: Int, level: Int) {
     var field = Field(width, height, h_gap, v_gap)
@@ -18,15 +19,15 @@ class Place(val width: Int, val height: Int, val h_gap: Int, val v_gap: Int, lev
 
     fun run() {
         while (true) {
-            one_iteration()
+            one_iteration(1)
         }
     }
 
-    fun one_iteration() {
+    fun one_iteration(level: Int) {
         display()
         update_cleaner()
         update_mice()
-        Thread.sleep(500)
+        Thread.sleep(max(0, 50 - level * 7).toLong())
     }
 
     // for debug only

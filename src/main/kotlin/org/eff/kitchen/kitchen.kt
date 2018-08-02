@@ -110,7 +110,7 @@ class Kitchen : Game() {
                 redraw_cleaner_and_steps()
             }
         }
-        place.one_iteration()
+        place.one_iteration(level)
         redraw_field_if_needed()
         redraw_cleaner_and_steps()
         redraw_mice()
