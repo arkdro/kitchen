@@ -215,6 +215,7 @@ class Kitchen : Game() {
     private fun redraw_cleaner_and_steps() {
         redraw_cleaner()
         update_cleaner_step_objects()
+        redraw_cleaner_shots()
     }
 
     private fun redraw_cleaner() {
@@ -265,6 +266,12 @@ class Kitchen : Game() {
 
     private fun create_cleaner_step_objects(): MutableMap<Coord, FObject> {
         return mutableMapOf<Coord, FObject>()
+    }
+
+    private fun redraw_cleaner_shots() {
+        if (place.cleaner.is_at_start()) {
+            update_shots_text()
+        }
     }
 
     private fun redraw_mice() {
