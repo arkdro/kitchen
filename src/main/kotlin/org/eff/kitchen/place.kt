@@ -24,7 +24,7 @@ class Place(val width: Int, val height: Int, val h_gap: Int, val v_gap: Int, lev
     }
 
     fun one_iteration(level: Int) {
-        display()
+        // display()
         update_cleaner()
         update_mice()
         Thread.sleep(max(0, 50 - level * 7).toLong())
