@@ -32,7 +32,6 @@ class Kitchen : Game() {
     private lateinit var g_ground_mice: MutableMap<Ground_mouse, FObject>
     private lateinit var g_cleaner: FObject
     private lateinit var g_cleaner_steps: MutableMap<Coord, FObject>
-    private lateinit var g_score: SimpleText
     private lateinit var g_total_score: SimpleText
     private lateinit var g_level: SimpleText
     private lateinit var g_shots: SimpleText
@@ -157,7 +156,6 @@ class Kitchen : Game() {
             val points_to_ground = fill(place.field, place.food_mice.toSet())
             update_cleaned_field(points_to_ground)
             update_field(points_to_ground)
-            update_score_text()
             update_total_score_text()
             init_ground_mouse_timer()
             if (most_of_level_cleaned()) {
@@ -197,15 +195,10 @@ class Kitchen : Game() {
         }
     }
 
-    private fun update_score_text() {
-        score = place.field.get_current_food_count()
-        val text = "Cleaned: $score"
-        g_score.text = text
-    }
-
     private fun update_total_score_text() {
+        score = place.field.get_current_food_count()
         total_score = score_at_level_begin + score
-        val text = "Total: $total_score"
+        val text = "Score: $total_score"
         g_total_score.text = text
     }
 
@@ -295,26 +288,11 @@ class Kitchen : Game() {
         }
     }
 
-    private fun add_score() {
-        val text = ""
-        val y = config[Srv.height] + config[Srv.add_window_vertical] +
-                config[Srv.step]
-        val x = 0
-        g_score = SimpleText(ColorResource.MAGENTA, text, x.toDouble(), y.toDouble())
-        g_score.textSize = config[Srv.step].toDouble() * 1.25
-        update_score_text()
-        addObject(g_score)
-    }
-
-    private fun remove_score() {
-        removeObject(g_score)
-    }
-
     private fun add_total_score() {
         val text = ""
         val y = config[Srv.height] + config[Srv.add_window_vertical] +
                 config[Srv.step]
-        val x = 8 * config[Srv.step]
+        val x = 2 * config[Srv.step]
         g_total_score = SimpleText(ColorResource.MAGENTA, text, x.toDouble(), y.toDouble())
         g_total_score.textSize = config[Srv.step].toDouble() * 1.25
         update_total_score_text()
@@ -329,7 +307,7 @@ class Kitchen : Game() {
         val text = ""
         val y = config[Srv.height] + config[Srv.add_window_vertical] +
                 config[Srv.step]
-        val x = 16 * config[Srv.step]
+        val x = 12 * config[Srv.step]
         g_level = SimpleText(ColorResource.MAGENTA, text, x.toDouble(), y.toDouble())
         g_level.textSize = config[Srv.step].toDouble() * 1.25
         update_level_text()
@@ -344,7 +322,7 @@ class Kitchen : Game() {
         val text = ""
         val y = config[Srv.height] + config[Srv.add_window_vertical] +
                 config[Srv.step]
-        val x = 24 * config[Srv.step]
+        val x = 22 * config[Srv.step]
         g_shots = SimpleText(ColorResource.MAGENTA, text, x.toDouble(), y.toDouble())
         g_shots.textSize = config[Srv.step].toDouble() * 1.25
         update_shots_text()
@@ -396,7 +374,6 @@ class Kitchen : Game() {
     }
 
     private fun add_all_objects(place: Place) {
-        add_score()
         add_total_score()
         add_level_object()
         add_shots_object()
@@ -412,7 +389,6 @@ class Kitchen : Game() {
         remove_field_object_from_graphics()
         removeObject(g_cleaner)
         remove_mouse_objects()
-        remove_score()
         remove_total_score()
         remove_level_object()
         remove_shots_object()
