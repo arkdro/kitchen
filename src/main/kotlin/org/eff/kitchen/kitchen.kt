@@ -35,6 +35,7 @@ class Kitchen : Game() {
     private lateinit var g_score: SimpleText
     private lateinit var g_total_score: SimpleText
     private lateinit var g_level: SimpleText
+    private lateinit var g_shots: SimpleText
     private var score = 0
     private var total_score = 0
     private var score_at_level_begin = 0
@@ -213,6 +214,11 @@ class Kitchen : Game() {
         g_level.text = text
     }
 
+    private fun update_shots_text() {
+        val text = "Shots: ${place.cleaner.shots}"
+        g_shots.text = text
+    }
+
     private fun redraw_cleaner_and_steps() {
         redraw_cleaner()
         update_cleaner_step_objects()
@@ -308,7 +314,7 @@ class Kitchen : Game() {
         val text = ""
         val y = config[Srv.height] + config[Srv.add_window_vertical] +
                 config[Srv.step]
-        val x = 12 * config[Srv.step]
+        val x = 8 * config[Srv.step]
         g_total_score = SimpleText(ColorResource.MAGENTA, text, x.toDouble(), y.toDouble())
         g_total_score.textSize = config[Srv.step].toDouble() * 1.25
         update_total_score_text()
@@ -323,7 +329,7 @@ class Kitchen : Game() {
         val text = ""
         val y = config[Srv.height] + config[Srv.add_window_vertical] +
                 config[Srv.step]
-        val x = 24 * config[Srv.step]
+        val x = 16 * config[Srv.step]
         g_level = SimpleText(ColorResource.MAGENTA, text, x.toDouble(), y.toDouble())
         g_level.textSize = config[Srv.step].toDouble() * 1.25
         update_level_text()
@@ -332,6 +338,21 @@ class Kitchen : Game() {
 
     private fun remove_level_object() {
         removeObject(g_level)
+    }
+
+    private fun add_shots_object() {
+        val text = ""
+        val y = config[Srv.height] + config[Srv.add_window_vertical] +
+                config[Srv.step]
+        val x = 24 * config[Srv.step]
+        g_shots = SimpleText(ColorResource.MAGENTA, text, x.toDouble(), y.toDouble())
+        g_shots.textSize = config[Srv.step].toDouble() * 1.25
+        update_shots_text()
+        addObject(g_shots)
+    }
+
+    private fun remove_shots_object() {
+        removeObject(g_shots)
     }
 
     private fun add_ground_mouse() {
@@ -378,6 +399,7 @@ class Kitchen : Game() {
         add_score()
         add_total_score()
         add_level_object()
+        add_shots_object()
         g_field = G_field(config, place)
         add_field_object_to_graphics()
         g_cleaner = create_cleaner_object(place.cleaner)
@@ -393,6 +415,7 @@ class Kitchen : Game() {
         remove_score()
         remove_total_score()
         remove_level_object()
+        remove_shots_object()
     }
 
     private fun remove_mouse_objects() {
