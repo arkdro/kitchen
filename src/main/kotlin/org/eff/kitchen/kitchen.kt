@@ -105,7 +105,10 @@ class Kitchen : Game() {
             }
         }
         if (ground_mouse_timer.ended()) {
-            add_ground_mouse()
+            val need_redraw_cleaner = add_ground_mouse()
+            if (need_redraw_cleaner) {
+                redraw_cleaner_and_steps()
+            }
         }
         place.one_iteration()
         redraw_field_if_needed()
@@ -340,12 +343,15 @@ class Kitchen : Game() {
         removeObject(g_shots)
     }
 
-    private fun add_ground_mouse() {
+    private fun add_ground_mouse(): Boolean {
+        var need_redraw_cleaner = false
         if (place.ground_mice.size >= place.ground_mouse_limit) {
-            place.cleaner.pay_fine()
+            place.cleaner.collapsed_by_ground_mice(place.field)
             remove_ground_mice()
+            need_redraw_cleaner = true
         }
         add_one_ground_mouse()
+        return need_redraw_cleaner
     }
 
     private fun remove_ground_mice() {
